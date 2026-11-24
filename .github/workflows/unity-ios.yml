@@ -7,34 +7,141 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+env:
+  UNITY_VERSION: 2022.3.21f1
+
 jobs:
-  build-ios:
-    runs-on: macos-14
+  # ---------- JOB 1: Unity -> Xcode project ----------
+  export-xcode:
+    name: Export Xcode project
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          lfs: true
 
-      - name: Cache Unity
-        id: cache-unity
+      - name: Cache Library
         uses: actions/cache@v4
         with:
-          path: |
-            /Applications/Unity/Hub/Editor
-            /Users/runner/Library/Logs/Unity
-            Library
-          key: unity-${{ runner.os }}-2022.3.21f1-${{ hashFiles('**/*.cs', '**/*.unity', 'ProjectSettings/**') }}
+          path: Library
+          key: Library-iOS-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
           restore-keys: |
-            unity-${{ runner.os }}-2022.3.21f1-
+            Library-iOS-
 
-      - name: Install Unity 2022.3.21f1 + iOS Build Support
-        run: |
-          echo "Installing Unity Editor and iOS module..."
-          # Unity Hub must be installed and activated with a valid license before building.
-          # This step is a placeholder; GitHub-hosted runners do not include Unity by default.
-          echo "Unity installation must be configured manually with UNITY_EMAIL / UNITY_PASSWORD / UNITY_SERIAL."
-          echo "See https://github.com/game-ci/unity-builder for community Unity Actions."
+      - name: Build Unity (iOS target)
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          unityVersion: ${{ env.UNITY_VERSION }}
+          targetPlatform: iOS
+          buildName: MyGame
 
-      - name: Build iOS
+      - name: Upload Xcode project
+        uses: actions/upload-artifact@v4
+        with:
+          name: xcode-project
+          path: build/iOS
+          retention-days: 3
+
+  # ---------- JOB 2: Xcode -> IPA ----------
+  build-ipa:
+    name: Archive & export IPA
+    needs: export-xcode
+    runs-on: macos-26-intel
+    if: github.event_name != 'pull_request'
+    steps:
+      - name: Download Xcode project
+        uses: actions/download-artifact@v4
+        with:
+          name: xcode-project
+          path: xcode-project
+
+      - name: Show Xcode version
         run: |
-          echo "Build iOS placeholder. Requires Unity Editor installed on runner."
-          echo "Set UNITY_EMAIL, UNITY_PASSWORD, UNITY_SERIAL secrets."
+          ls /Applications | grep -i xcode
+          xcodebuild -version
+
+      - name: Install signing certificate & provisioning profile
+        env:
+          CERT_BASE64: ${{ secrets.IOS_CERT_P12_BASE64 }}
+          CERT_PASSWORD: ${{ secrets.IOS_CERT_PASSWORD }}
+          PROFILE_BASE64: ${{ secrets.IOS_PROVISION_PROFILE_BASE64 }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+        run: |
+          CERT_PATH=$RUNNER_TEMP/cert.p12
+          PROFILE_PATH=$RUNNER_TEMP/profile.mobileprovision
+          KEYCHAIN_PATH=$RUNNER_TEMP/build.keychain-db
+
+          echo -n "$CERT_BASE64" | base64 --decode -o $CERT_PATH
+          echo -n "$PROFILE_BASE64" | base64 --decode -o $PROFILE_PATH
+
+          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security import $CERT_PATH -P "$CERT_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security set-key-partition-list -S apple-tool:,apple: -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security list-keychain -d user -s $KEYCHAIN_PATH
+
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          cp $PROFILE_PATH ~/Library/MobileDevice/Provisioning\ Profiles/
+
+      - name: Fix permissions on Unity-generated scripts
+        run: |
+          cd xcode-project/iOS
+          chmod +x MapFileParser.sh || true
+
+      - name: Archive
+        run: |
+          cd xcode-project/iOS
+          xcodebuild archive \
+            -project Unity-iPhone.xcodeproj \
+            -scheme Unity-iPhone \
+            -configuration Release \
+            -archivePath $RUNNER_TEMP/MyGame.xcarchive \
+            CODE_SIGN_STYLE=Manual \
+            DEVELOPMENT_TEAM=${{ secrets.APPLE_TEAM_ID }} \
+            PROVISIONING_PROFILE_SPECIFIER="${{ secrets.IOS_PROVISION_PROFILE_NAME }}" \
+            CODE_SIGN_IDENTITY="Apple Distribution"
+
+      - name: Create ExportOptions.plist
+        run: |
+          cat > $RUNNER_TEMP/ExportOptions.plist <<EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>method</key><string>app-store</string>
+            <key>teamID</key><string>${{ secrets.APPLE_TEAM_ID }}</string>
+            <key>signingStyle</key><string>manual</string>
+            <key>provisioningProfiles</key>
+            <dict>
+              <key>${{ secrets.IOS_BUNDLE_ID }}</key>
+              <string>${{ secrets.IOS_PROVISION_PROFILE_NAME }}</string>
+            </dict>
+          </dict>
+          </plist>
+          EOF
+
+      - name: Export IPA
+        run: |
+          xcodebuild -exportArchive \
+            -archivePath $RUNNER_TEMP/MyGame.xcarchive \
+            -exportPath $RUNNER_TEMP/export \
+            -exportOptionsPlist $RUNNER_TEMP/ExportOptions.plist
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-ipa
+          path: ${{ runner.temp }}/export/*.ipa
+          retention-days: 7
+
+      - name: Clean up keychain
+        if: always()
+        run: |
+          security delete-keychain $RUNNER_TEMP/build.keychain-db || true
+          rm -f ~/Library/MobileDevice/Provisioning\ Profiles/*.mobileprovision || true
