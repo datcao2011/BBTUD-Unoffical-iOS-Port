@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 089b2dcbc4fbe954baac950a2ff52709
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - gc: {instanceID: 0}
+  - baldiHAS: {fileID: 8300000, guid: fd060b822385f934d8434127201eb816, type: 3}
+  - baldiYGLKP: {fileID: 8300000, guid: a7ff2a04bc9771743944acc9e262a1ec, type: 3}
+  - baldiIGH: {fileID: 8300000, guid: 2a96b0f39f88fda4d865516f8f57f376, type: 3}
+  - baldiIGS: {fileID: 8300000, guid: 19288e439bb2a6e49839bbe4dbd7351e, type: 3}
+  - baldiCountdown: {fileID: 8300000, guid: 7d059deefa1988248a4b83e5c6a6f288, type: 3}
+  - audioDevice: {instanceID: 0}
+  - text: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
