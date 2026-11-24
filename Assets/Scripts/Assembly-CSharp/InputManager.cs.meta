@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 158a67c811a9c494397eb43c247818ce
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - errorScreenObject: {fileID: 3236020162777408262, guid: 3896e102ad672134f9b0e6de6873f74f,
+      type: 3}
+  - eventScreenObject: {fileID: 4855616521455110815, guid: 76d5fbb8bd1a73044879c067ccd7c0d5,
+      type: 3}
+  - jump: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

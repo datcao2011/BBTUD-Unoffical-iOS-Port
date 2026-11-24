@@ -1,0 +1,284 @@
+using UnityEngine;
+
+using Platforms;
+
+public class CameraScript : MonoBehaviour
+{
+    public GameObject player;
+
+    public PlayerScript ps;
+
+    public Transform baldi;
+
+    public Transform gameOverCharacterTarget;
+
+    public Transform gameOverFadeTransform;
+
+    public GameObject gameOverFade;
+
+    public float initVelocity;
+
+    public float velocity;
+
+    public float gravity;
+
+    public bool DenyRotationYMovement;
+
+    private int lookBehind;
+
+    public int numTimes;
+
+    [HideInInspector]
+    public Vector3 offset;
+
+    public float jumpHeight;
+
+    public GameControllerScript gc;
+
+    private Vector3 jumpHeightV3;
+
+    public Vector3 fliparoo;
+
+    public Transform playerPos;
+
+    public Animator blackScreen;
+
+    private PlatPlayer input;
+
+    [SerializeField]
+    private Camera[] mainCamera = new Camera[2];
+
+    public float GM_PositionHeight = 5f;
+
+    private void Start()
+    {
+        GM_PositionHeight = 5f;
+        input = PlatTools.GetPlatformPlayer();
+        gameOverCharacterTarget = baldi;
+        offset = transform.position - player.transform.position;
+
+        if (Settings.GetBool("Optimize", GameOptimizer.OptimizationDefault))
+        {
+            Camera.main.nearClipPlane = 1;
+        }
+
+        OnDistanceChanged("Distance", Settings.GetInt("Distance", GameOptimizer.CameraOptimizationDefault));
+        OnDistanceChanged("OcclusionCulling", Settings.GetBool("OcclusionCulling", GameOptimizer.OptimizationDefault));
+        Settings.OnSettingChanged += OnDistanceChanged;
+    }
+
+    private void OnDistanceChanged(string name, object val)
+    {
+        if (name == "Distance")
+        {
+            if (MultiplayerManager.isActive && MultiplayerManager.instance.isBaldi)
+            {
+                Camera.main.nearClipPlane = 0.1f;
+                Camera.main.farClipPlane = 500f;
+                return; // The logs burst out if we do this
+            }
+            int[] Distances = new int[] { 100, 200, 500, 10000 };
+            Camera.main.farClipPlane = Distances[(int)val];
+            Camera.main.nearClipPlane = (int)val >= 2 ? 0.1f : 1f;
+        }
+        if (name == "OcclusionCulling")
+        {
+            Camera.main.useOcclusionCulling = (bool)val;
+            // if (Settings.GetString("ModeType", "Normal") == "BB")
+            // {
+            //     Camera.main.useOcclusionCulling = false;
+            // }
+            if (NullManager.Instance != null && !Settings.GetBool("Optimize", GameOptimizer.OptimizationDefault))
+            {
+                Camera.main.useOcclusionCulling = true;
+                Debug.LogWarning("[Camera Settings] Forcing the use of Occlusion Culling due to performance without optimization.");
+            }
+        }
+
+    }
+
+    private void OnDestroy()
+    {
+        Settings.OnSettingChanged -= OnDistanceChanged;
+    }
+
+    private bool Jumped;
+
+    public bool NoFade;
+
+    private void Update()
+    {
+        if (MultiplayerManager.isActive && MultiplayerManager.instance.isBaldi)
+        {
+            if (ps.gameOver)
+            {
+                gameOverFade.SetActive(true);
+            }
+            mainCamera[0].farClipPlane = 1;
+            return;
+        }
+        if (player.GetComponent<PlayerScript>().hiding)
+        {
+            lookBehind = 0;
+        }
+        else if (ps.jumpRope)
+        {
+            velocity -= gravity * Time.deltaTime;
+            jumpHeight += velocity * Time.deltaTime;
+            if (jumpHeight <= 0f)
+            {
+                if (Jumped)
+                {
+                    Jumped = false;
+                    ps.frozenPosition = playerPos.position;
+                }
+                jumpHeight = 0f;
+                if (input.GetButtonDown("Jump"))
+                {
+                    velocity = initVelocity;
+                    Jumped = true;
+                }
+            }
+            else
+            {
+                Jumped = true;
+            }
+            jumpHeightV3 = new Vector3(0f, jumpHeight, 0f);
+        }
+
+        if (Time.timeScale != 0f & !ps.hiding & (!ps.jumpRope || InputManager.usingTouch || input.GetKeyName("LookBack") != input.GetKeyName("Jump")) && (input.GetButton("LookBack") || lookBehindButton))
+        {
+            if (!(MultiplayerManager.isActive && !MultiplayerManager.instance.isBaldi && MultiplayerManager.instance.PauseMovement))
+            {
+                lookBehind = 180;
+            }
+        }
+        else
+        {
+            lookBehind = 0;
+        }
+        if (ps.gameOver && !NoFade)
+        {
+            gameOverFade.SetActive(true);
+        }
+    }
+
+    private float rotationY;
+
+    public bool IgnoreCameraInputs;
+
+    private bool Is3DMovementOn()
+    {
+        return !DenyRotationYMovement && Settings.GetBool("3d movement");
+    }
+
+    private void LateUpdate()
+    {
+        if (IgnoreCameraInputs) return;
+        if (MultiplayerManager.isActive && MultiplayerManager.instance.isBaldi)
+        {
+            if (ps.gameOver)
+            {
+                base.transform.position = gameOverCharacterTarget.position + gameOverCharacterTarget.forward * 2f + new Vector3(0f, GM_PositionHeight, 0f);
+                Transform transform = base.transform;
+                Vector3 position = gameOverCharacterTarget.position;
+                float x = position.x;
+                Vector3 position2 = gameOverCharacterTarget.position;
+                float y = position2.y + GM_PositionHeight;
+                Vector3 position3 = gameOverCharacterTarget.position;
+                transform.LookAt(new Vector3(x, y, position3.z));
+            }
+            return;
+        }
+        if (!ps.gameOver)
+        {
+            if (Is3DMovementOn() & Time.timeScale != 0f)
+            {
+                if (!(MultiplayerManager.isActive && !MultiplayerManager.instance.isBaldi && MultiplayerManager.instance.PauseMovement))
+                {
+                    if (!ps.flipped)
+                    {
+                        this.rotationY -= InputManager.TurnY(true) * Settings.GetFloat("TurnSensitivity", 1f);
+                    }
+                    else
+                    {
+                        this.rotationY -= -InputManager.TurnY(true) * Settings.GetFloat("TurnSensitivity", 1f);
+                    }
+                    rotationY = Mathf.Clamp(this.rotationY, -90f, 90f);
+                }
+
+            }
+            if (!Is3DMovementOn())
+            {
+                rotationY = 0f;
+            }
+        }
+        transform.position = player.transform.position + offset;
+        if (!ps.gameOver & !ps.jumpRope)
+        {
+            transform.position = player.transform.position + offset;
+            transform.rotation = player.transform.rotation * Quaternion.Euler(0f, (float)lookBehind, playerPos.rotation.z);
+            transform.eulerAngles = new Vector3(rotationY, transform.eulerAngles.y, 0f);
+        }
+        else if (ps.gameOver && gameOverCharacterTarget != null)
+        {
+            base.transform.position = gameOverCharacterTarget.position + gameOverCharacterTarget.forward * 2f + new Vector3(0f, GM_PositionHeight, 0f);
+            Transform transform = base.transform;
+            Vector3 position = gameOverCharacterTarget.position;
+            float x = position.x;
+            Vector3 position2 = gameOverCharacterTarget.position;
+            float y = position2.y + GM_PositionHeight;
+            Vector3 position3 = gameOverCharacterTarget.position;
+            transform.LookAt(new Vector3(x, y, position3.z));
+        }
+        else if (ps.jumpRope)
+        {
+            transform.position = player.transform.position + offset + jumpHeightV3;
+            transform.rotation = player.transform.rotation * Quaternion.Euler(0f, (float)lookBehind, playerPos.rotation.z);
+            transform.eulerAngles = new Vector3(rotationY, transform.eulerAngles.y, 0f);
+        }
+    }
+
+    public void ChangeCamera(int num, int num2)
+    {
+        if (MultiplayerManager.isActive && MultiplayerManager.instance.isBaldi)
+        {
+            return;
+        }
+        if (num > 1 || num2 > 1)
+        {
+            console.error("CameraScript: Cannot find camera.");
+            return;
+        }
+        if (num == 0 & num2 == 0)
+        {
+            console.error("CameraScript: Value cannot be the same.");
+            return;
+        }
+        if (num == 1 & num2 == 1)
+        {
+            console.error("CameraScript: Value cannot be the same.");
+            return;
+        }
+        mainCamera[num2].enabled = false;
+        mainCamera[num].enabled = true;
+    }
+
+    public void MobilePressed()
+    {
+        if (ps.jumpRope)
+        {
+            if (jumpHeight <= 0f)
+            {
+                velocity = initVelocity;
+            }
+        }
+    }
+
+    public float GetLookBehindValue()
+    {
+        return (lookBehind > 0) ? -1f : 1f;
+    }
+
+    public bool lookBehindButton;
+}
