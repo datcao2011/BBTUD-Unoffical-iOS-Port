@@ -1,0 +1,231 @@
+fileFormatVersion: 2
+guid: acce1b02f45a4aac45be45ca6f521d6d
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: AlarmClockDrop
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 4
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 9
+  spritePivot: {x: 0.4998955, y: 0.5307148}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
+  swizzle: 50462976
+  cookieLightType: 1
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: tvOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: AlarmClockDrop
+      rect:
+        serializedVersion: 2
+        x: 0.02675098
+        y: 3.046796
+        width: 127.9866
+        height: 114.9707
+      alignment: 9
+      pivot: {x: 0.4998434, y: 0.530163}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -60.97992, y: 57.456}
+        - {x: -63.97992, y: 51.456}
+        - {x: -63.97992, y: -49.544}
+        - {x: -61.97992, y: -57.544}
+        - {x: 53.02008, y: -57.544}
+        - {x: 64.02008, y: -19.544}
+        - {x: 64.02008, y: 57.456}
+      physicsShape:
+      - - {x: 29.97995, y: -41.53213}
+        - {x: 44.97996, y: -57.53213}
+        - {x: 48.97995, y: -56.53213}
+        - {x: 47.97996, y: -49.53213}
+        - {x: 39.97995, y: -29.53214}
+        - {x: 45.97995, y: -25.53213}
+        - {x: 55.97995, y: -0.532135}
+        - {x: 54.97996, y: 15.46787}
+        - {x: 61.97996, y: 20.46787}
+        - {x: 63.97995, y: 24.46786}
+        - {x: 63.97995, y: 47.46787}
+        - {x: 56.97995, y: 54.46787}
+        - {x: 50.97995, y: 57.46785}
+        - {x: 35.97996, y: 57.46785}
+        - {x: 28.97996, y: 56.46786}
+        - {x: 7.979954, y: 55.46787}
+        - {x: -5.020046, y: 55.46787}
+        - {x: -19.02004, y: 52.46786}
+        - {x: -49.02004, y: 56.46786}
+        - {x: -62.02004, y: 45.46786}
+        - {x: -64.02003, y: 38.46787}
+        - {x: -64.02003, y: 23.46787}
+        - {x: -57.02004, y: 9.467865}
+        - {x: -45.02004, y: 22.46787}
+        - {x: -53.02004, y: 5.467865}
+        - {x: -53.02004, y: -1.532135}
+        - {x: -41.02004, y: -25.53213}
+        - {x: -45.02004, y: -52.53213}
+        - {x: -43.02004, y: -57.53213}
+        - {x: -40.02004, y: -57.53213}
+        - {x: -29.02004, y: -45.53213}
+        - {x: -9.020045, y: -48.53213}
+        - {x: 7.979954, y: -49.53213}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 02305410000000000800000000000000
+      internalID: 21300000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      AlarmClockDrop: 21300000
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

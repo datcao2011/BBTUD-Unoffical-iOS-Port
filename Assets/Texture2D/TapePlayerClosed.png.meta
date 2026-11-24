@@ -1,0 +1,169 @@
+fileFormatVersion: 2
+guid: c39617b3f2890bb64c553463bfea71b2
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: TapePlayerClosed
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 4
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 9
+  spritePivot: {x: 0.4997025, y: 0.5587845}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: TapePlayerClosed
+      rect:
+        serializedVersion: 2
+        x: 0.0761205
+        y: 7.042908
+        width: 127.9619
+        height: 101.9919
+      alignment: 9
+      pivot: {x: 0.4995539, y: 0.5584469}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -28.94291, y: 51.0121}
+        - {x: -63.9429, y: 38.0121}
+        - {x: -63.9429, y: 12.0121}
+        - {x: -9.942905, y: -50.9879}
+        - {x: 36.05709, y: -50.9879}
+        - {x: 44.05709, y: -49.9879}
+        - {x: 64.0571, y: -18.9879}
+        - {x: 64.0571, y: 19.0121}
+        - {x: 10.05709, y: 51.0121}
+      physicsShape:
+      - - {x: 59.94291, y: -17.03888}
+        - {x: 61.94291, y: -17.03888}
+        - {x: 63.94291, y: -15.03889}
+        - {x: 63.94291, y: 2.961113}
+        - {x: 54.94291, y: 10.96111}
+        - {x: 48.94291, y: 13.96111}
+        - {x: 26.94291, y: 28.96111}
+        - {x: 7.942913, y: 41.96111}
+        - {x: -6.057087, y: 50.96111}
+        - {x: -14.05709, y: 50.96111}
+        - {x: -27.05709, y: 47.96111}
+        - {x: -59.05709, y: 35.96111}
+        - {x: -64.05709, y: 31.96111}
+        - {x: -64.05709, y: 22.96111}
+        - {x: -62.05708, y: 15.96111}
+        - {x: -54.05709, y: 5.961112}
+        - {x: -49.05709, y: -1.038887}
+        - {x: -33.05709, y: -19.03889}
+        - {x: -27.05709, y: -22.03889}
+        - {x: -16.05709, y: -36.03889}
+        - {x: -11.05709, y: -44.03889}
+        - {x: -4.057087, y: -51.03889}
+        - {x: 0.9429131, y: -51.03889}
+        - {x: 6.942913, y: -50.03889}
+        - {x: 17.94291, y: -43.03888}
+        - {x: 33.94291, y: -33.03889}
+        - {x: 48.94291, y: -23.03889}
+      - - {x: 11.94291, y: 38.96111}
+        - {x: 14.94291, y: 39.96111}
+        - {x: 14.94291, y: 42.96111}
+        - {x: 11.94291, y: 43.96111}
+        - {x: 9.942912, y: 41.96111}
+      - - {x: 3.942913, y: 44.96111}
+        - {x: 6.942913, y: 45.96111}
+        - {x: 6.942913, y: 48.96111}
+        - {x: 3.942913, y: 49.96111}
+        - {x: 1.942913, y: 47.96111}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 02305410000000000800000000000000
+      internalID: 21300000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      TapePlayerClosed: 21300000
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

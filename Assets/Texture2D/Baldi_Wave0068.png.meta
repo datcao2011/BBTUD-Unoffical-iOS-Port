@@ -1,0 +1,172 @@
+fileFormatVersion: 2
+guid: ae974cd68413e58b489519a93d857502
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: Baldi_Wave0068
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 4
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 9
+  spritePivot: {x: 0.4215074, y: 0.5272738}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Baldi_Wave0068
+      rect:
+        serializedVersion: 2
+        x: 20.06373
+        y: 2.025846
+        width: 120.9876
+        height: 238.983
+      alignment: 9
+      pivot: {x: 0.4210042, y: 0.5271259}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -44.51859, y: 119.4745}
+        - {x: -60.51859, y: 119.4745}
+        - {x: -60.51859, y: 72.47446}
+        - {x: 5.481407, y: -117.5255}
+        - {x: 10.48141, y: -119.5256}
+        - {x: 18.48141, y: -119.5256}
+        - {x: 19.48141, y: -116.5255}
+        - {x: 26.48141, y: -119.5256}
+        - {x: 45.48141, y: -119.5256}
+        - {x: 57.48141, y: -102.5255}
+        - {x: 60.48141, y: -61.52554}
+        - {x: 60.48141, y: 78.47446}
+        - {x: 34.48141, y: 114.4745}
+        - {x: 18.48141, y: 105.4745}
+        - {x: 12.48141, y: 99.47446}
+        - {x: 6.481407, y: 88.47446}
+      physicsShape:
+      - - {x: 32.4425, y: -119.5174}
+        - {x: 39.44249, y: -119.5174}
+        - {x: 44.44249, y: -117.5174}
+        - {x: 46.4425, y: -100.5174}
+        - {x: 45.4425, y: -25.51737}
+        - {x: 48.4425, y: -32.51737}
+        - {x: 60.44249, y: -30.51737}
+        - {x: 60.44249, y: 26.48263}
+        - {x: 59.4425, y: 62.48263}
+        - {x: 41.4425, y: 66.48262}
+        - {x: 48.4425, y: 78.48263}
+        - {x: 49.44249, y: 89.48263}
+        - {x: 33.44249, y: 109.4826}
+        - {x: 18.4425, y: 105.4826}
+        - {x: 12.4425, y: 99.48263}
+        - {x: 6.442493, y: 88.48263}
+        - {x: 7.442493, y: 65.48262}
+        - {x: -20.5575, y: 86.48262}
+        - {x: -33.5575, y: 106.4826}
+        - {x: -46.5575, y: 119.4826}
+        - {x: -60.5575, y: 119.4826}
+        - {x: -60.5575, y: 105.4826}
+        - {x: -48.5575, y: 101.4826}
+        - {x: -22.5575, y: 66.48262}
+        - {x: 4.442493, y: 51.48263}
+        - {x: 3.442492, y: -18.51737}
+        - {x: 7.442493, y: -28.51737}
+        - {x: 5.442491, y: -117.5174}
+        - {x: 10.44249, y: -119.5174}
+        - {x: 18.4425, y: -119.5174}
+        - {x: 19.4425, y: -116.5174}
+        - {x: 21.4425, y: -34.51737}
+        - {x: 28.4425, y: -46.51737}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 02305410000000000800000000000000
+      internalID: 21300000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      Baldi_Wave0068: 21300000
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

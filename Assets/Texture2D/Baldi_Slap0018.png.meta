@@ -1,0 +1,164 @@
+fileFormatVersion: 2
+guid: a4392533c212e9844a3d296b7dfe6d1b
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: Baldi_Slap0018
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 4
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 9
+  spritePivot: {x: 0.6263953, y: 0.5180972}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Baldi_Slap0018
+      rect:
+        serializedVersion: 2
+        x: 6.07612
+        y: 0.0761205
+        width: 74.9684
+        height: 246.9684
+      alignment: 9
+      pivot: {x: 0.6259155, y: 0.5179768}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -20.45259, y: 104.5474}
+        - {x: -37.45259, y: 45.54741}
+        - {x: -37.45259, y: 18.54741}
+        - {x: -22.45259, y: -123.4526}
+        - {x: 13.54741, y: -123.4526}
+        - {x: 20.54741, y: -121.4526}
+        - {x: 37.54741, y: 12.54741}
+        - {x: 37.54741, y: 38.54741}
+        - {x: 10.54741, y: 123.5474}
+        - {x: 0.5474052, y: 123.5474}
+      physicsShape:
+      - - {x: 2.439682, y: -54.56031}
+        - {x: 4.439683, y: -120.5603}
+        - {x: 7.439682, y: -123.5603}
+        - {x: 13.43969, y: -123.5603}
+        - {x: 18.43969, y: -120.5603}
+        - {x: 16.43969, y: -21.56032}
+        - {x: 21.43969, y: -17.56032}
+        - {x: 23.43969, y: 26.43968}
+        - {x: 29.43968, y: 26.43968}
+        - {x: 37.43969, y: 30.43968}
+        - {x: 37.43969, y: 34.43968}
+        - {x: 26.43969, y: 65.43968}
+        - {x: 16.43969, y: 105.4397}
+        - {x: 10.43969, y: 123.4397}
+        - {x: 0.439682, y: 123.4397}
+        - {x: -20.56031, y: 104.4397}
+        - {x: -23.56031, y: 87.43968}
+        - {x: -20.56031, y: 74.43968}
+        - {x: -31.56031, y: 65.43968}
+        - {x: -37.56031, y: 43.43968}
+        - {x: -37.56031, y: 28.43968}
+        - {x: -36.56031, y: 22.43968}
+        - {x: -26.56031, y: 23.43968}
+        - {x: -25.56031, y: -16.56032}
+        - {x: -23.56031, y: -59.56032}
+        - {x: -21.56031, y: -122.5603}
+        - {x: -19.56031, y: -123.5603}
+        - {x: -12.56031, y: -123.5603}
+        - {x: -9.560318, y: -120.5603}
+        - {x: -7.560318, y: -31.56032}
+        - {x: 1.439682, y: -19.56032}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 02305410000000000800000000000000
+      internalID: 21300000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      Baldi_Slap0018: 21300000
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
