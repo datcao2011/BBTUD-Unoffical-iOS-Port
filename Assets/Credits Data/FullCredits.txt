@@ -1,0 +1,48 @@
+Baldi's Basics The Ultra Decompile
+
+Created by SeenWonderAlex
+
+Original Game by Basically Games
+
+<----- Tools Used ----->
+Unity 2022.1.15f1
+GIMP
+Anim8or
+
+<----- Assets Used ----->
+Touch Control Kit
+Joystick Pack
+TextMeshPro
+Platforms
+XInputDotPure
+
+<----- Inspiration ----->
+1st Baldi
+Filename3
+
+<----- Special Thanks ----->
+BlakeDude7
+LordRyan1999
+CyndaquilDAC
+SuperInky
+
+<----- Helpers ----->
+Shaiw
+xTPSx
+
+
+
+Thank you for the support everyone! I worked this for a year.
+
+Have a great day!
+
+
+
+
+
+
+
+
+
+
+-------- End of credits --------
