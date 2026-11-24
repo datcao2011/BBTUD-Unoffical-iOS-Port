@@ -1,0 +1,539 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8464180243088235848
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8464180243088235184}
+  - component: {fileID: 8464180243088235187}
+  - component: {fileID: 8464180243088235852}
+  - component: {fileID: 8464180243088235855}
+  m_Layer: 0
+  m_Name: InputManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8464180243088235184
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8464180243088235848}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8464180243088235187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8464180243088235848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21c424bb80945fc4d849b83d1abc5bfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dontDestroyOnLoad: 0
+  showErrorMessagesInGame: 1
+--- !u!114 &8464180243088235852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8464180243088235848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1871799635, guid: b6db530b8b45d9649ae56ff0923aac25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8464180243088235855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8464180243088235848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 906533215, guid: b6db530b8b45d9649ae56ff0923aac25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  logLoadedAxises: 0
+  isReady: 0
+  axises:
+  - AxisName: Turn X
+    positiveAxisKey: 0
+    positiveDefaultKey: 0
+    negativeAxisKey: 0
+    negativeDefaultKey: 0
+    mouseMovement: 1
+    mouseButton: 0
+    defaultMouseButton: 0
+    alternativeMouseButton: 0
+    defaultAltMouseButton: 0
+    mouseScrollWheel: 0
+    defaultMouseScrollWheel: 0
+    controllerAxisTrigger: 0
+    defaultControllerTrigger: 0
+    controllerDPad: 0
+    defaultControllerDPad: 0
+    controllerStick: 2
+    defaultControllerStick: 2
+    controllerButtons: 0
+    defaultControllerButtons: 0
+    controllerBumpers: 0
+    defaultControllerBumpers: 0
+  - AxisName: Turn Y
+    positiveAxisKey: 0
+    positiveDefaultKey: 0
+    negativeAxisKey: 0
+    negativeDefaultKey: 0
+    mouseMovement: 2
+    mouseButton: 0
+    defaultMouseButton: 0
+    alternativeMouseButton: 0
+    defaultAltMouseButton: 0
+    mouseScrollWheel: 0
+    defaultMouseScrollWheel: 0
+    controllerAxisTrigger: 0
+    defaultControllerTrigger: 0
+    controllerDPad: 0
+    defaultControllerDPad: 0
+    controllerStick: 4
+    defaultControllerStick: 4
+    controllerButtons: 0
+    defaultControllerButtons: 0
+    controllerBumpers: 0
+    defaultControllerBumpers: 0
+  - AxisName: Run
+    positiveAxisKey: 304
+    positiveDefaultKey: 304
+    negativeAxisKey: 0
+    negativeDefaultKey: 303
+    mouseMovement: 0
+    mouseButton: 0
+    defaultMouseButton: 0
+    alternativeMouseButton: 0
+    defaultAltMouseButton: 0
+    mouseScrollWheel: 0
+    defaultMouseScrollWheel: 0
+    controllerAxisTrigger: 2
+    defaultControllerTrigger: 2
+    controllerDPad: 0
+    defaultControllerDPad: 0
+    controllerStick: 0
+    defaultControllerStick: 0
+    controllerButtons: 0
+    defaultControllerButtons: 0
+    controllerBumpers: 0
+    defaultControllerBumpers: 0
+  - AxisName: OpenMap
+    positiveAxisKey: 109
+    positiveDefaultKey: 109
+    negativeAxisKey: 0
+    negativeDefaultKey: 0
+    mouseMovement: 0
+    mouseButton: 0
+    defaultMouseButton: 0
+    alternativeMouseButton: 0
+    defaultAltMouseButton: 0
+    mouseScrollWheel: 0
+    defaultMouseScrollWheel: 0
+    controllerAxisTrigger: 1
+    defaultControllerTrigger: 1
+    controllerDPad: 0
+    defaultControllerDPad: 0
+    controllerStick: 0
+    defaultControllerStick: 0
+    controllerButtons: 0
+    defaultControllerButtons: 0
+    controllerBumpers: 0
+    defaultControllerBumpers: 0
+  - AxisName: AdvancedMap
+    positiveAxisKey: 105
+    positiveDefaultKey: 105
+    negativeAxisKey: 0
+    negativeDefaultKey: 0
+    mouseMovement: 0
+    mouseButton: 0
+    defaultMouseButton: 0
+    alternativeMouseButton: 0
+    defaultAltMouseButton: 0
+    mouseScrollWheel: 0
+    defaultMouseScrollWheel: 0
+    controllerAxisTrigger: 0
+    defaultControllerTrigger: 0
+    controllerDPad: 0
+    defaultControllerDPad: 0
+    controllerStick: 0
+    defaultControllerStick: 0
+    controllerButtons: 6
+    defaultControllerButtons: 6
+    controllerBumpers: 0
+    defaultControllerBumpers: 0
+  - AxisName: Flashlight Toggle
+    positiveAxisKey: 102
+    positiveDefaultKey: 102
+    negativeAxisKey: 0
+    negativeDefaultKey: 0
+    mouseMovement: 0
+    mouseButton: 0
+    defaultMouseButton: 0
+    alternativeMouseButton: 0
+    defaultAltMouseButton: 0
+    mouseScrollWheel: 0
+    defaultMouseScrollWheel: 0
+    controllerAxisTrigger: 0
+    defaultControllerTrigger: 0
+    controllerDPad: 0
+    defaultControllerDPad: 0
+    controllerStick: 0
+    defaultControllerStick: 0
+    controllerButtons: 0
+    defaultControllerButtons: 6
+    controllerBumpers: 0
+    defaultControllerBumpers: 0
+  - AxisName: Forward
+    positiveAxisKey: 119
+    positiveDefaultKey: 119
+    negativeAxisKey: 115
+    negativeDefaultKey: 115
+    mouseMovement: 0
+    mouseButton: 0
+    defaultMouseButton: 0
+    alternativeMouseButton: 0
+    defaultAltMouseButton: 0
+    mouseScrollWheel: 0
+    defaultMouseScrollWheel: 0
+    controllerAxisTrigger: 0
+    defaultControllerTrigger: 0
+    controllerDPad: 0
+    defaultControllerDPad: 0
+    controllerStick: 3
+    defaultControllerStick: 3
+    controllerButtons: 0
+    defaultControllerButtons: 0
+    controllerBumpers: 0
+    defaultControllerBumpers: 0
+  - AxisName: Strafe
+    positiveAxisKey: 100
+    positiveDefaultKey: 100
+    negativeAxisKey: 97
+    negativeDefaultKey: 97
+    mouseMovement: 0
+    mouseButton: 0
+    defaultMouseButton: 0
+    alternativeMouseButton: 0
+    defaultAltMouseButton: 0
+    mouseScrollWheel: 0
+    defaultMouseScrollWheel: 0
+    controllerAxisTrigger: 0
+    defaultControllerTrigger: 0
+    controllerDPad: 0
+    defaultControllerDPad: 0
+    controllerStick: 1
+    defaultControllerStick: 1
+    controllerButtons: 0
+    defaultControllerButtons: 0
+    controllerBumpers: 0
+    defaultControllerBumpers: 0
+  - AxisName: ItemScroll
+    positiveAxisKey: 0
+    positiveDefaultKey: 0
+    negativeAxisKey: 0
+    negativeDefaultKey: 0
+    mouseMovement: 0
+    mouseButton: 0
+    defaultMouseButton: 0
+    alternativeMouseButton: 0
+    defaultAltMouseButton: 0
+    mouseScrollWheel: 1
+    defaultMouseScrollWheel: 1
+    controllerAxisTrigger: 0
+    defaultControllerTrigger: 0
+    controllerDPad: 0
+    defaultControllerDPad: 0
+    controllerStick: 0
+    defaultControllerStick: 0
+    controllerButtons: 0
+    defaultControllerButtons: 0
+    controllerBumpers: 0
+    defaultControllerBumpers: 0
+  - AxisName: ItemLeft
+    positiveAxisKey: 0
+    positiveDefaultKey: 0
+    negativeAxisKey: 0
+    negativeDefaultKey: 0
+    mouseMovement: 0
+    mouseButton: 0
+    defaultMouseButton: 0
+    alternativeMouseButton: 0
+    defaultAltMouseButton: 0
+    mouseScrollWheel: 0
+    defaultMouseScrollWheel: 0
+    controllerAxisTrigger: 0
+    defaultControllerTrigger: 0
+    controllerDPad: 0
+    defaultControllerDPad: 0
+    controllerStick: 0
+    defaultControllerStick: 0
+    controllerButtons: 0
+    defaultControllerButtons: 0
+    controllerBumpers: 1
+    defaultControllerBumpers: 1
+  - AxisName: ItemRight
+    positiveAxisKey: 0
+    positiveDefaultKey: 0
+    negativeAxisKey: 0
+    negativeDefaultKey: 0
+    mouseMovement: 0
+    mouseButton: 0
+    defaultMouseButton: 0
+    alternativeMouseButton: 0
+    defaultAltMouseButton: 0
+    mouseScrollWheel: 0
+    defaultMouseScrollWheel: 0
+    controllerAxisTrigger: 0
+    defaultControllerTrigger: 0
+    controllerDPad: 0
+    defaultControllerDPad: 0
+    controllerStick: 0
+    defaultControllerStick: 0
+    controllerButtons: 0
+    defaultControllerButtons: 0
+    controllerBumpers: 2
+    defaultControllerBumpers: 2
+  - AxisName: Interact
+    positiveAxisKey: 0
+    positiveDefaultKey: 0
+    negativeAxisKey: 0
+    negativeDefaultKey: 0
+    mouseMovement: 0
+    mouseButton: 1
+    defaultMouseButton: 1
+    alternativeMouseButton: 0
+    defaultAltMouseButton: 0
+    mouseScrollWheel: 0
+    defaultMouseScrollWheel: 0
+    controllerAxisTrigger: 0
+    defaultControllerTrigger: 0
+    controllerDPad: 0
+    defaultControllerDPad: 0
+    controllerStick: 0
+    defaultControllerStick: 0
+    controllerButtons: 3
+    defaultControllerButtons: 3
+    controllerBumpers: 0
+    defaultControllerBumpers: 0
+  - AxisName: PList
+    positiveAxisKey: 9
+    positiveDefaultKey: 9
+    negativeAxisKey: 0
+    negativeDefaultKey: 0
+    mouseMovement: 0
+    mouseButton: 0
+    defaultMouseButton: 0
+    alternativeMouseButton: 0
+    defaultAltMouseButton: 0
+    mouseScrollWheel: 0
+    defaultMouseScrollWheel: 0
+    controllerAxisTrigger: 0
+    defaultControllerTrigger: 0
+    controllerDPad: 3
+    defaultControllerDPad: 0
+    controllerStick: 0
+    defaultControllerStick: 0
+    controllerButtons: 0
+    defaultControllerButtons: 0
+    controllerBumpers: 0
+    defaultControllerBumpers: 0
+  - AxisName: DropItem
+    positiveAxisKey: 113
+    positiveDefaultKey: 9
+    negativeAxisKey: 0
+    negativeDefaultKey: 0
+    mouseMovement: 0
+    mouseButton: 0
+    defaultMouseButton: 0
+    alternativeMouseButton: 0
+    defaultAltMouseButton: 0
+    mouseScrollWheel: 0
+    defaultMouseScrollWheel: 0
+    controllerAxisTrigger: 0
+    defaultControllerTrigger: 0
+    controllerDPad: 4
+    defaultControllerDPad: 0
+    controllerStick: 0
+    defaultControllerStick: 0
+    controllerButtons: 0
+    defaultControllerButtons: 0
+    controllerBumpers: 0
+    defaultControllerBumpers: 0
+  - AxisName: Use
+    positiveAxisKey: 0
+    positiveDefaultKey: 9
+    negativeAxisKey: 0
+    negativeDefaultKey: 0
+    mouseMovement: 0
+    mouseButton: 2
+    defaultMouseButton: 0
+    alternativeMouseButton: 0
+    defaultAltMouseButton: 0
+    mouseScrollWheel: 0
+    defaultMouseScrollWheel: 0
+    controllerAxisTrigger: 0
+    defaultControllerTrigger: 0
+    controllerDPad: 0
+    defaultControllerDPad: 0
+    controllerStick: 0
+    defaultControllerStick: 0
+    controllerButtons: 1
+    defaultControllerButtons: 0
+    controllerBumpers: 0
+    defaultControllerBumpers: 0
+  - AxisName: CheatMenu
+    positiveAxisKey: 9
+    positiveDefaultKey: 9
+    negativeAxisKey: 0
+    negativeDefaultKey: 0
+    mouseMovement: 0
+    mouseButton: 0
+    defaultMouseButton: 0
+    alternativeMouseButton: 0
+    defaultAltMouseButton: 0
+    mouseScrollWheel: 0
+    defaultMouseScrollWheel: 0
+    controllerAxisTrigger: 0
+    defaultControllerTrigger: 0
+    controllerDPad: 0
+    defaultControllerDPad: 0
+    controllerStick: 0
+    defaultControllerStick: 0
+    controllerButtons: 2
+    defaultControllerButtons: 0
+    controllerBumpers: 0
+    defaultControllerBumpers: 0
+  - AxisName: SaveMenu
+    positiveAxisKey: 117
+    positiveDefaultKey: 9
+    negativeAxisKey: 0
+    negativeDefaultKey: 0
+    mouseMovement: 0
+    mouseButton: 0
+    defaultMouseButton: 0
+    alternativeMouseButton: 0
+    defaultAltMouseButton: 0
+    mouseScrollWheel: 0
+    defaultMouseScrollWheel: 0
+    controllerAxisTrigger: 0
+    defaultControllerTrigger: 0
+    controllerDPad: 6
+    defaultControllerDPad: 0
+    controllerStick: 0
+    defaultControllerStick: 0
+    controllerButtons: 0
+    defaultControllerButtons: 0
+    controllerBumpers: 0
+    defaultControllerBumpers: 0
+  - AxisName: Chat
+    positiveAxisKey: 116
+    positiveDefaultKey: 9
+    negativeAxisKey: 0
+    negativeDefaultKey: 0
+    mouseMovement: 0
+    mouseButton: 0
+    defaultMouseButton: 0
+    alternativeMouseButton: 0
+    defaultAltMouseButton: 0
+    mouseScrollWheel: 0
+    defaultMouseScrollWheel: 0
+    controllerAxisTrigger: 0
+    defaultControllerTrigger: 0
+    controllerDPad: 5
+    defaultControllerDPad: 0
+    controllerStick: 0
+    defaultControllerStick: 0
+    controllerButtons: 0
+    defaultControllerButtons: 0
+    controllerBumpers: 0
+    defaultControllerBumpers: 0
+  - AxisName: Jump
+    positiveAxisKey: 32
+    positiveDefaultKey: 9
+    negativeAxisKey: 0
+    negativeDefaultKey: 0
+    mouseMovement: 0
+    mouseButton: 0
+    defaultMouseButton: 0
+    alternativeMouseButton: 0
+    defaultAltMouseButton: 0
+    mouseScrollWheel: 0
+    defaultMouseScrollWheel: 0
+    controllerAxisTrigger: 0
+    defaultControllerTrigger: 0
+    controllerDPad: 0
+    defaultControllerDPad: 0
+    controllerStick: 0
+    defaultControllerStick: 0
+    controllerButtons: 7
+    defaultControllerButtons: 0
+    controllerBumpers: 0
+    defaultControllerBumpers: 0
+  - AxisName: LookBack
+    positiveAxisKey: 32
+    positiveDefaultKey: 9
+    negativeAxisKey: 0
+    negativeDefaultKey: 0
+    mouseMovement: 0
+    mouseButton: 0
+    defaultMouseButton: 0
+    alternativeMouseButton: 0
+    defaultAltMouseButton: 0
+    mouseScrollWheel: 0
+    defaultMouseScrollWheel: 0
+    controllerAxisTrigger: 0
+    defaultControllerTrigger: 0
+    controllerDPad: 0
+    defaultControllerDPad: 0
+    controllerStick: 0
+    defaultControllerStick: 0
+    controllerButtons: 7
+    defaultControllerButtons: 0
+    controllerBumpers: 0
+    defaultControllerBumpers: 0
+  - AxisName: ShowButton
+    positiveAxisKey: 0
+    positiveDefaultKey: 9
+    negativeAxisKey: 0
+    negativeDefaultKey: 0
+    mouseMovement: 0
+    mouseButton: 0
+    defaultMouseButton: 0
+    alternativeMouseButton: 0
+    defaultAltMouseButton: 0
+    mouseScrollWheel: 0
+    defaultMouseScrollWheel: 0
+    controllerAxisTrigger: 0
+    defaultControllerTrigger: 0
+    controllerDPad: 0
+    defaultControllerDPad: 0
+    controllerStick: 0
+    defaultControllerStick: 0
+    controllerButtons: 0
+    defaultControllerButtons: 0
+    controllerBumpers: 0
+    defaultControllerBumpers: 0

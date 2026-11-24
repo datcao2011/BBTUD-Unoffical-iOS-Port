@@ -1,0 +1,352 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Platforms_Source</name>
+    </assembly>
+    <members>
+        <member name="T:Platforms.Console.Exceptions.PlatformsErrorException">
+            <summary>
+            An error exception that indicates there is an error of this 
+            </summary>
+        </member>
+        <member name="T:Platforms.Console.Exceptions.PlatformsErrorInputException">
+            <summary>
+            An error exception that indicates there is an error of this 
+            </summary>
+        </member>
+        <member name="T:Platforms.Console.Logger.ConsoleLogger">
+            <summary>
+            Platforms Logger.
+            </summary>
+        </member>
+        <member name="E:Platforms.Console.Logger.ConsoleLogger.exceptionReceived">
+            <summary>
+            Called when there is a problem and exception was thrown on platforms.
+            </summary>
+        </member>
+        <member name="T:Platforms.Console.Logger.ConsoleLogger.PFExceptionReceived">
+            <summary>
+            Function when called on ConsoleLogger.exceptionReceived
+            </summary>
+            <param name="ex">Exception</param>
+        </member>
+        <member name="M:Platforms.Console.Logger.ConsoleLogger.Log(System.Object)">
+            <summary>
+            Log the text.
+            </summary>
+            <param name="message">Message</param>
+        </member>
+        <member name="M:Platforms.Console.Logger.ConsoleLogger.LogWarning(System.Object)">
+            <summary>
+            Log Warning the text.
+            </summary>
+            <param name="message">Message</param>
+        </member>
+        <member name="M:Platforms.Console.Logger.ConsoleLogger.LogError(System.Object)">
+            <summary>
+            Log Error the text.
+            </summary>
+            <param name="message">Message</param>
+        </member>
+        <member name="M:Platforms.Console.Logger.ConsoleLogger.RunException(System.Object)">
+            <summary>
+            Log Exception the text.
+            </summary>
+            <param name="message">Message</param>
+        </member>
+        <member name="M:Platforms.Console.Logger.ConsoleLogger.RunInputException(System.Object)">
+            <summary>
+            Log Exception the text.
+            </summary>
+            <param name="message">Message</param>
+        </member>
+        <member name="T:Platforms.Controller">
+            <summary>
+            Controller API
+            </summary>
+        </member>
+        <member name="M:Platforms.Controller.DisablePad">
+            <summary>
+            Disables gamepad.
+            </summary>
+        </member>
+        <member name="M:Platforms.Controller.EnablePad">
+            <summary>
+            Enables gamepad.
+            </summary>
+        </member>
+        <member name="P:Platforms.Controller.isEnabled">
+            <summary>
+            Is the gamepad enabled?
+            </summary>
+        </member>
+        <member name="P:Platforms.Controller.GamePads">
+            <summary>
+            Controller gamepads.
+            </summary>
+        </member>
+        <member name="F:Platforms.Controller.usedController">
+            <summary>
+            Has used controller?
+            </summary>
+        </member>
+        <member name="F:Platforms.Controller.started">
+            <summary>
+            Is controller has been connected since the application opened?
+            </summary>
+        </member>
+        <member name="T:Platforms.CurrentDevice">
+            <summary>
+            Current device.
+            </summary>
+        </member>
+        <member name="P:Platforms.CurrentDevice.currentPlatform">
+            <summary>
+            The current platform of the application. If it returns null, use CheckDevice(false).
+            </summary>
+        </member>
+        <member name="M:Platforms.CurrentDevice.CheckDevice(System.Boolean)">
+            <summary>
+            Checks the current Platform
+            </summary>
+            <param name="log">Log the platform</param>
+        </member>
+        <member name="M:Platforms.CurrentDevice.Vibrate">
+            <summary>
+            Vibrates the mobile device and the gamepad controller.
+            </summary>
+        </member>
+        <member name="M:Platforms.CurrentDevice.VibrateDeviceAndController(System.Single,System.Single,System.Single)">
+            <summary>
+            Vibrates the mobile device and the gamepad controller with duration.
+            </summary>
+        </member>
+        <member name="M:Platforms.CurrentDevice.VibrateDevice(System.Single)">
+            <summary>
+            Vibrates the mobile device only.
+            </summary>
+        </member>
+        <member name="M:Platforms.CurrentDevice.VibrateController(System.Single,System.Single)">
+            <summary>
+            Vibrates the gamepad controller only.
+            </summary>
+        </member>
+        <member name="M:Platforms.CurrentDevice.VibrateController(System.Single,System.Single,System.Single)">
+            <summary>
+            Vibrates the gamepad controller only.
+            </summary>
+        </member>
+        <member name="M:Platforms.CurrentDevice.VibrateController(System.Int32,System.Single,System.Single)">
+            <summary>
+            Vibrates the gamepad controller only.
+            </summary>
+        </member>
+        <member name="M:Platforms.CurrentDevice.VibrateController(System.Int32,System.Single,System.Single,System.Single)">
+            <summary>
+            Vibrates the gamepad controller only.
+            </summary>
+        </member>
+        <member name="M:Platforms.CurrentDevice.StopVibrateController">
+            <summary>
+            Stops the controller vibration and the mobile device vibrating
+            </summary>
+        </member>
+        <member name="T:Platforms.GamePadController">
+            <summary>
+            The gamepad settings.
+            </summary>
+        </member>
+        <member name="P:Platforms.GamePadController.buttons">
+            <summary>
+            Buttons of the gamepad.
+            </summary>
+        </member>
+        <member name="P:Platforms.GamePadController.triggers">
+            <summary>
+            Triggers of the gamepad.
+            </summary>
+        </member>
+        <member name="P:Platforms.GamePadController.sticks">
+            <summary>
+            Sticks of the gamepad.
+            </summary>
+        </member>
+        <member name="P:Platforms.GamePadController.DPad">
+            <summary>
+            DPad of the gamepad.
+            </summary>
+        </member>
+        <member name="P:Platforms.GamePadController.isConnected">
+            <summary>
+            Is the gamepad connected?
+            </summary>
+        </member>
+        <member name="P:Platforms.GamePadController.isAnyGamepadConnected">
+            <summary>
+            Is a gamepad connected to the system?
+            </summary>
+        </member>
+        <member name="P:Platforms.GamePadController.name">
+            <summary>
+            Gamepad name.
+            </summary>
+        </member>
+        <member name="M:Platforms.GamePadController.Vibrate(System.Single,System.Single)">
+            <summary>
+            Vibrate the gamepad.
+            </summary>
+            <param name="leftMotor">The left motor vibration.</param>
+            <param name="rightMotor">The right motor vibration.</param>
+        </member>
+        <member name="M:Platforms.GamePadController.StopVibrate">
+            <summary>
+            Stop gamepad vibration.
+            </summary>
+        </member>
+        <member name="M:Platforms.MobileInput.SetAxis(System.String,System.Single)">
+            <summary>
+            Sets the Mobile Input Axis. It will add the value to the input manager value.
+            </summary>
+            <param name="name">Axis Name</param>
+            <param name="axis">Axis Value</param>
+        </member>
+        <member name="M:Platforms.MobileInput.SetTriggerButton(System.String,System.Boolean)">
+            <summary>
+            Sets the Mobile Input Button. It will add the value to the input manager button trigger.
+            </summary>
+            <param name="name">Button name</param>
+            <param name="isPressed">Will the button be pressed?</param>
+        </member>
+        <member name="M:Platforms.MobileInput.GetMobileInputAxis(System.String)">
+            <summary>
+            Get the axis of the mobile input
+            </summary>
+            <param name="name">Axis Name</param>
+            <returns>The axis value.</returns>
+        </member>
+        <member name="M:Platforms.MobileInput.GetMobileInputButton(System.String)">
+            <summary>
+            Check if a mobile input button is pressedon the button.
+            </summary>
+            <param name="name">Button Name</param>
+            <returns>If the button is pressed.</returns>
+        </member>
+        <member name="M:Platforms.MobileInput.GetMobileInputButtonDown(System.String)">
+            <summary>
+            Check if a mobile input button is pressed down on the button.
+            </summary>
+            <param name="name">Button Name</param>
+            <returns>If the button is pressed down.</returns>
+        </member>
+        <member name="M:Platforms.MobileInput.GetMobileInputButtonUp(System.String)">
+            <summary>
+            Check if a mobile input button is pressed up on the button.
+            </summary>
+            <param name="name">Button Name</param>
+            <returns>If the button is pressed up.</returns>
+        </member>
+        <member name="M:Platforms.MobileInput.PressButtonDownMobile(System.String)">
+            <summary>
+            ONLY USED FOR PLATFORMS SYSTEM.
+            </summary>
+            <param name="buttonName">None</param>
+        </member>
+        <member name="M:Platforms.MobileInput.PressButtonUpMobile(System.String)">
+            <summary>
+            ONLY USED FOR PLATFORMS SYSTEM.
+            </summary>
+            <param name="buttonName">None</param>
+        </member>
+        <member name="M:Platforms.MobileInput.GetMobileButtonDown(System.String)">
+            <summary>
+            ONLY USED FOR PLATFORMS SYSTEM.
+            </summary>
+            <param name="buttonName">None</param>
+        </member>
+        <member name="M:Platforms.MobileInput.GetMobileButtonUp(System.String)">
+            <summary>
+            ONLY USED FOR PLATFORMS SYSTEM.
+            </summary>
+            <param name="buttonName">None</param>
+        </member>
+        <member name="T:Platforms.PFPlatform">
+            <summary>
+            Game Platforms.
+            </summary>
+        </member>
+        <member name="F:Platforms.PFPlatform.Windows">
+            <summary>
+            Windows Device.
+            </summary>
+        </member>
+        <member name="F:Platforms.PFPlatform.MacOS">
+            <summary>
+            Mac OS X Device.
+            </summary>
+        </member>
+        <member name="F:Platforms.PFPlatform.Linux">
+            <summary>
+            Linux Device.
+            </summary>
+        </member>
+        <member name="F:Platforms.PFPlatform.Android">
+            <summary>
+            Android Device.
+            </summary>
+        </member>
+        <member name="F:Platforms.PFPlatform.XboxOne">
+            <summary>
+            Xbox One Device.
+            </summary>
+        </member>
+        <member name="F:Platforms.PFPlatform.iPhone">
+            <summary>
+            iPhone/iPad Device.
+            </summary>
+        </member>
+        <member name="F:Platforms.PFPlatform.WebGL">
+            <summary>
+            Website Device.
+            </summary>
+        </member>
+        <member name="F:Platforms.PFPlatform.Unknown">
+            <summary>
+            Unknown or not supported device.
+            </summary>
+        </member>
+        <member name="M:Platforms.PlatPlayerController.GetButton(System.String)">
+            <summary>
+            Easier way to get the button if pressed and have more features
+            </summary>
+        </member>
+        <member name="T:Platforms.PlatTools">
+            <summary>
+            Platforms Tools.
+            </summary>
+        </member>
+        <member name="M:Platforms.PlatTools.GetPlatformPlayer">
+            <summary>
+            Gets the platform player.
+            More Information: https://swateam-sites.wixsite.com/unityplatforms/docs/PlatTools.GetPlatformPlayer
+            </summary>
+            <returns>The platform player.</returns>
+        </member>
+        <member name="M:Platforms.PlatTools.GetPlatformPlayer(System.UInt32)">
+            <summary>
+            [Deprecated] Gets the platform player with the index.
+            More Information: https://swateam-sites.wixsite.com/unityplatforms/docs/PlatTools.GetPlatformPlayer
+            </summary>
+            <returns>The platform player.</returns>
+        </member>
+        <member name="F:Platforms.PlatTools.tokenToInput">
+            <summary>
+            Token.
+            </summary>
+        </member>
+        <member name="P:Platforms.TouchControls.Detected">
+            <summary>
+            Is the user using touch?
+            </summary>
+        </member>
+    </members>
+</doc>
