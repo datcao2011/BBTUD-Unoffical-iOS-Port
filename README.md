@@ -1,6 +1,6 @@
 # BBTUD Unofficial iOS Port
 
-Unofficial iOS port of **Baldi's Basics Ultra Decompile (BBTUD)** — open source fan project.
+Unofficial iOS port of **Baldi's Basics The Ultra Decompile (BBTUD)** — open source fan project.
 
 ## Credits
 
