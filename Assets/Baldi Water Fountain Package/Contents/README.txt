@@ -1,0 +1,3 @@
+Once imported into the map, select all of the parts besides the spout (Including the parent gameobject.). Select your player for both of the things under "Water Fountain Script". This is CRUCIAL if you want your fountain to work. This has been tested for 1.4.3, but not 1.3.2, but it should work on both.
+DO NOT IMPORT THE MESH!!! IMPORT THE PREFAB! THE MESH IS MISSING THE COLLIDER AND SCRIPT!
+DO NOT DELETE ANY OF THE CONTENTS! THEY ARE ALL CRUCIAL!
