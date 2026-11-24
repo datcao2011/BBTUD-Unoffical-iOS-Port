@@ -1,0 +1,40 @@
+name: Unity iOS Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-ios:
+    runs-on: macos-14
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Cache Unity
+        id: cache-unity
+        uses: actions/cache@v4
+        with:
+          path: |
+            /Applications/Unity/Hub/Editor
+            /Users/runner/Library/Logs/Unity
+            Library
+          key: unity-${{ runner.os }}-2022.3.21f1-${{ hashFiles('**/*.cs', '**/*.unity', 'ProjectSettings/**') }}
+          restore-keys: |
+            unity-${{ runner.os }}-2022.3.21f1-
+
+      - name: Install Unity 2022.3.21f1 + iOS Build Support
+        run: |
+          echo "Installing Unity Editor and iOS module..."
+          # Unity Hub must be installed and activated with a valid license before building.
+          # This step is a placeholder; GitHub-hosted runners do not include Unity by default.
+          echo "Unity installation must be configured manually with UNITY_EMAIL / UNITY_PASSWORD / UNITY_SERIAL."
+          echo "See https://github.com/game-ci/unity-builder for community Unity Actions."
+
+      - name: Build iOS
+        run: |
+          echo "Build iOS placeholder. Requires Unity Editor installed on runner."
+          echo "Set UNITY_EMAIL, UNITY_PASSWORD, UNITY_SERIAL secrets."
