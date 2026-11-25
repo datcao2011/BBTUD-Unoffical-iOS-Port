@@ -103,6 +103,7 @@ jobs:
             ONLY_ACTIVE_ARCH=NO \
             SUPPORTED_PLATFORMS=iphoneos \
             PLATFORM_NAME=iphoneos \
+            OTHER_LDFLAGS="-ObjC -framework UnityFramework" \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO
 
@@ -131,6 +132,13 @@ jobs:
             exit 1
           fi
           lipo -info "$BIN" | grep -q arm64 || { echo "ERROR: not arm64"; exit 1; }
+          if otool -L "$BIN" | grep -q "UnityFramework"; then
+            echo "OK: links UnityFramework"
+          else
+            echo "ERROR: executable does NOT link UnityFramework.framework"
+            otool -L "$BIN"
+            exit 1
+          fi
           echo "OK: arm64 iOS device build"
 
       - name: Upload IPA
