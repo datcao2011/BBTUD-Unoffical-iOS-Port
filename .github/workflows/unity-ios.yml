@@ -89,7 +89,7 @@ jobs:
           echo "Project dir: $PROJECT_DIR"
           chmod +x "$PROJECT_DIR/MapFileParser.sh" || true
 
-      - name: Link UnityFramework into app target
+      - name: Link UnityFramework + libiPhone-lib into app target
         run: |
           PROJECT_DIR=$(dirname "$(find xcode-project -maxdepth 3 -name "Unity-iPhone.xcodeproj" | head -1)")
           PBXPROJ="$PROJECT_DIR/Unity-iPhone.xcodeproj/project.pbxproj"
@@ -97,8 +97,10 @@ jobs:
           import re, sys, shutil
           pbx = sys.argv[1]
           shutil.copy2(pbx, pbx + '.bak')
-          NEW_GUID = '9D25ABB0213FB47800354C27'
-          NEW_BUILDFILE_LINE = f'\t\t{NEW_GUID} /* UnityFramework.framework in Frameworks */ = {{isa = PBXBuildFile; fileRef = 9D25AB9D213FB47800354C27 /* UnityFramework.framework */; }};\n'
+          ADD = [
+              ('9D25ABB0213FB47800354C27', '9D25AB9D213FB47800354C27', 'UnityFramework.framework', 'UnityFramework.framework in Frameworks'),
+              ('9D25ABB1213FB47800354C27', '4DC089211278CC7792F1893F', 'libiPhone-lib.dylib', 'libiPhone-lib.dylib in Frameworks'),
+          ]
           data = open(pbx).read()
           tm = re.search(r'([A-Z0-9]{24}) /\* Unity-iPhone \*/ = \{', data)
           if not tm:
@@ -118,42 +120,50 @@ jobs:
                       break
               i += 1
           phases_list = data[bp_paren+1:i]
-          phase_guids = re.findall(r'([A-Z0-9]{24}) /\* Frameworks \*/', phases_list)
-          if not phase_guids:
+          fw_guids = re.findall(r'([A-Z0-9]{24}) /\* Frameworks \*/', phases_list)
+          if not fw_guids:
               print("ERROR: no Frameworks phase in Unity-iPhone target"); sys.exit(1)
-          fw_guid = phase_guids[0]
+          fw_guid = fw_guids[0]
           print(f"Unity-iPhone Frameworks phase GUID: {fw_guid}")
           pm = re.search(re.escape(fw_guid) + r' /\* Frameworks \*/ = \{([^}]*)\};', data)
           if not pm:
               print("ERROR: Frameworks phase block not found"); sys.exit(1)
           phase_inner = pm.group(1)
-          if 'UnityFramework.framework in Frameworks' in phase_inner:
-              print("Already linked; no change needed.")
-          else:
+          to_add_files = []
+          for ng, frg, name, comment in ADD:
+              if f'{name} in Frameworks' not in phase_inner:
+                  to_add_files.append((ng, comment))
+          if to_add_files:
+              indent = '\t\t\t'
+              entries = '\n'.join(f'{indent}{ng} /* {comment} */,' for ng, comment in to_add_files)
               def repl_files(m):
-                  indent = '\t\t\t'
                   inner_ws = m.group(1)
-                  entry = f'{NEW_GUID} /* UnityFramework.framework in Frameworks */'
                   if inner_ws.strip() == '':
-                      return f'files = (\n{indent}{entry},\n{indent});'
+                      return f'files = (\n{entries}\n{indent});'
                   else:
-                      return f'files = ({inner_ws.rstrip()},\n{indent}{entry});'
+                      return f'files = ({inner_ws.rstrip()},\n{entries}\n{indent});'
               new_inner = re.sub(r'files = \((\s*)\);', repl_files, phase_inner, count=1)
               if new_inner == phase_inner:
-                  new_inner = phase_inner.replace(');', f',\n\t\t\t{NEW_GUID} /* UnityFramework.framework in Frameworks */);', 1)
+                  new_inner = phase_inner.replace(');', ',\n' + entries + '\n' + indent + ');', 1)
               new_block = pm.group(0).replace(phase_inner, new_inner, 1)
               data = data.replace(pm.group(0), new_block, 1)
-              print("Added UnityFramework.framework to Unity-iPhone Frameworks build phase.")
-          buildfile_present = bool(re.search(
-              re.escape(NEW_GUID) + r' /\* UnityFramework.framework in Frameworks \*/ = \{isa = PBXBuildFile;', data))
-          anchor = '\t\t9D25ABA5213FB47800354C27 /* UnityFramework.framework in Embed Frameworks */ = '
-          if not buildfile_present and anchor in data:
-              data = data.replace(anchor, NEW_BUILDFILE_LINE + anchor, 1)
-              print("Added PBXBuildFile entry.")
-          elif buildfile_present:
-              print("PBXBuildFile entry already present.")
+              print(f"Added {len(to_add_files)} framework(s) to Unity-iPhone Frameworks build phase.")
           else:
-              data = data.replace('/* End PBXBuildFile section */', NEW_BUILDFILE_LINE + '/* End PBXBuildFile section */', 1)
+              print("All frameworks already in Frameworks build phase.")
+          anchor = '\t\t9D25ABA5213FB47800354C27 /* UnityFramework.framework in Embed Frameworks */ = '
+          new_bf_lines = ''
+          for ng, frg, name, comment in ADD:
+              bf_present = bool(re.search(re.escape(ng) + r' /\* ' + comment + r' \*/ = \{isa = PBXBuildFile;', data))
+              if not bf_present:
+                  new_bf_lines += f'\t\t{ng} /* {comment} */ = {{isa = PBXBuildFile; fileRef = {frg} /* {name} */; }};\n'
+          if new_bf_lines:
+              if anchor in data:
+                  data = data.replace(anchor, new_bf_lines + anchor, 1)
+              else:
+                  data = data.replace('/* End PBXBuildFile section */', new_bf_lines + '/* End PBXBuildFile section */', 1)
+              print(f"Added PBXBuildFile entry(ies).")
+          else:
+              print("All PBXBuildFile entries already present.")
           open(pbx, 'w').write(data)
           print("DONE")
           PY
@@ -200,10 +210,10 @@ jobs:
             exit 1
           fi
           lipo -info "$BIN" | grep -q arm64 || { echo "ERROR: not arm64"; exit 1; }
-          if otool -L "$BIN" | grep -q "UnityFramework"; then
-            echo "OK: links UnityFramework"
+          if otool -L "$BIN" | grep -q "libiPhone-lib"; then
+            echo "OK: links libiPhone-lib.dylib"
           else
-            echo "ERROR: executable does NOT link UnityFramework.framework"
+            echo "ERROR: executable does NOT link libiPhone-lib.dylib"
             otool -L "$BIN"
             exit 1
           fi
