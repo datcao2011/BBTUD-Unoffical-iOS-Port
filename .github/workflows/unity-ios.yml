@@ -97,11 +97,13 @@ jobs:
           import re, sys, shutil
           pbx = sys.argv[1]
           shutil.copy2(pbx, pbx + '.bak')
+          # (new_pbxbuildfile_guid, fileRef_guid, display_name, comment)
           ADD = [
               ('9D25ABB0213FB47800354C27', '9D25AB9D213FB47800354C27', 'UnityFramework.framework', 'UnityFramework.framework in Frameworks'),
               ('9D25ABB1213FB47800354C27', '4DC089211278CC7792F1893F', 'libiPhone-lib.dylib', 'libiPhone-lib.dylib in Frameworks'),
           ]
           data = open(pbx).read()
+          # 1. Locate Unity-iPhone target Frameworks phase GUID
           tm = re.search(r'([A-Z0-9]{24}) /\* Unity-iPhone \*/ = \{', data)
           if not tm:
               print("ERROR: Unity-iPhone target not found"); sys.exit(1)
@@ -110,58 +112,51 @@ jobs:
           if not bpm:
               print("ERROR: buildPhases not found"); sys.exit(1)
           bp_paren = tstart + bpm.start() + len('buildPhases = (') - 1
-          depth = 0
-          i = bp_paren
+          depth = 0; i = bp_paren
           while i < len(data):
               if data[i] == '(': depth += 1
               elif data[i] == ')':
                   depth -= 1
-                  if depth == 0:
-                      break
+                  if depth == 0: break
               i += 1
           phases_list = data[bp_paren+1:i]
           fw_guids = re.findall(r'([A-Z0-9]{24}) /\* Frameworks \*/', phases_list)
           if not fw_guids:
               print("ERROR: no Frameworks phase in Unity-iPhone target"); sys.exit(1)
           fw_guid = fw_guids[0]
-          print(f"Unity-iPhone Frameworks phase GUID: {fw_guid}")
+          # 2. Append files entries to that Frameworks phase
           pm = re.search(re.escape(fw_guid) + r' /\* Frameworks \*/ = \{([^}]*)\};', data)
           if not pm:
               print("ERROR: Frameworks phase block not found"); sys.exit(1)
           phase_inner = pm.group(1)
-          to_add_files = []
-          for ng, frg, name, comment in ADD:
-              if f'{name} in Frameworks' not in phase_inner:
-                  to_add_files.append((ng, comment))
-          if to_add_files:
+          to_add = [(ng, c) for ng, frg, n, c in ADD if f'{n} in Frameworks' not in phase_inner]
+          if to_add:
               indent = '\t\t\t'
-              entries = '\n'.join(f'{indent}{ng} /* {comment} */,' for ng, comment in to_add_files)
+              entries = '\n'.join(f'{indent}{ng} /* {c} */,' for ng, c in to_add)
               def repl_files(m):
-                  inner_ws = m.group(1)
-                  if inner_ws.strip() == '':
+                  ws = m.group(1)
+                  if ws.strip() == '':
                       return f'files = (\n{entries}\n{indent});'
-                  else:
-                      return f'files = ({inner_ws.rstrip()},\n{entries}\n{indent});'
+                  return f'files = ({ws.rstrip()},\n{entries}\n{indent});'
               new_inner = re.sub(r'files = \((\s*)\);', repl_files, phase_inner, count=1)
               if new_inner == phase_inner:
                   new_inner = phase_inner.replace(');', ',\n' + entries + '\n' + indent + ');', 1)
-              new_block = pm.group(0).replace(phase_inner, new_inner, 1)
-              data = data.replace(pm.group(0), new_block, 1)
-              print(f"Added {len(to_add_files)} framework(s) to Unity-iPhone Frameworks build phase.")
+              data = data.replace(pm.group(0), pm.group(0).replace(phase_inner, new_inner, 1), 1)
+              print(f"Added {len(to_add)} framework(s) to Unity-iPhone Frameworks phase.")
           else:
-              print("All frameworks already in Frameworks build phase.")
+              print("All frameworks already in Frameworks phase.")
+          # 3. Add PBXBuildFile entries
           anchor = '\t\t9D25ABA5213FB47800354C27 /* UnityFramework.framework in Embed Frameworks */ = '
-          new_bf_lines = ''
-          for ng, frg, name, comment in ADD:
-              bf_present = bool(re.search(re.escape(ng) + r' /\* ' + comment + r' \*/ = \{isa = PBXBuildFile;', data))
-              if not bf_present:
-                  new_bf_lines += f'\t\t{ng} /* {comment} */ = {{isa = PBXBuildFile; fileRef = {frg} /* {name} */; }};\n'
-          if new_bf_lines:
+          new_bf = ''
+          for ng, frg, n, c in ADD:
+              if not re.search(re.escape(ng) + r' /\* ' + c + r' \*/ = \{isa = PBXBuildFile;', data):
+                  new_bf += f'\t\t{ng} /* {c} */ = {{isa = PBXBuildFile; fileRef = {frg} /* {n} */; }};\n'
+          if new_bf:
               if anchor in data:
-                  data = data.replace(anchor, new_bf_lines + anchor, 1)
+                  data = data.replace(anchor, new_bf + anchor, 1)
               else:
-                  data = data.replace('/* End PBXBuildFile section */', new_bf_lines + '/* End PBXBuildFile section */', 1)
-              print(f"Added PBXBuildFile entry(ies).")
+                  data = data.replace('/* End PBXBuildFile section */', new_bf + '/* End PBXBuildFile section */', 1)
+              print("Added PBXBuildFile entry(ies).")
           else:
               print("All PBXBuildFile entries already present.")
           open(pbx, 'w').write(data)
@@ -182,7 +177,6 @@ jobs:
             ONLY_ACTIVE_ARCH=NO \
             SUPPORTED_PLATFORMS=iphoneos \
             PLATFORM_NAME=iphoneos \
-            LIBRARY_SEARCH_PATHS='$(BUILT_PRODUCTS_DIR)/UnityFramework.framework' \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO
 
@@ -194,6 +188,15 @@ jobs:
           rm -rf "$RUNNER_TEMP/ipa"
           mkdir -p "$RUNNER_TEMP/ipa/Payload"
           cp -R "$APP_PATH" "$RUNNER_TEMP/ipa/Payload/"
+          # libiPhone-lib.dylib is @loader_path-based; main exe loader_path = .app root.
+          # Copy it next to the main executable so UnityPLCrashReporter symbols resolve.
+          DYNLIB="$RUNNER_TEMP/ipa/Payload/$(basename "$APP_PATH")/Frameworks/UnityFramework.framework/libiPhone-lib.dylib"
+          if [ -f "$DYNLIB" ]; then
+            cp -f "$DYNLIB" "$RUNNER_TEMP/ipa/Payload/$(basename "$APP_PATH")/libiPhone-lib.dylib"
+            echo "Copied libiPhone-lib.dylib to .app root"
+          else
+            echo "WARNING: libiPhone-lib.dylib not found in framework"; exit 1
+          fi
           cd "$RUNNER_TEMP/ipa"
           zip -qr BBTUD-iOS-port-unsigned.ipa Payload
           ls -lh BBTUD-iOS-port-unsigned.ipa
