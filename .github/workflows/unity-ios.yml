@@ -138,7 +138,7 @@ jobs:
                       return f'files = (\n{indent}{entry},\n{indent});'
                   else:
                       return f'files = ({inner_ws.rstrip()},\n{indent}{entry});'
-              new_inner = re.sub(r'files = \((\s*)\)', repl_files, phase_inner, count=1)
+              new_inner = re.sub(r'files = \((\s*)\);', repl_files, phase_inner, count=1)
               if new_inner == phase_inner:
                   new_inner = phase_inner.replace(');', f',\n\t\t\t{NEW_GUID} /* UnityFramework.framework in Frameworks */);', 1)
               new_block = pm.group(0).replace(phase_inner, new_inner, 1)
