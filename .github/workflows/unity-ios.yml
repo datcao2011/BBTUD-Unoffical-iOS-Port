@@ -67,12 +67,14 @@ jobs:
 
       - name: Fix permissions on Unity-generated scripts
         run: |
-          cd xcode-project/iOS
-          chmod +x MapFileParser.sh || true
+          PROJECT_DIR=$(dirname "$(find xcode-project -maxdepth 3 -name "Unity-iPhone.xcodeproj" | head -1)")
+          echo "Project dir: $PROJECT_DIR"
+          chmod +x "$PROJECT_DIR/MapFileParser.sh" || true
 
       - name: Archive (unsigned)
         run: |
-          cd xcode-project/iOS
+          PROJECT_DIR=$(dirname "$(find xcode-project -maxdepth 3 -name "Unity-iPhone.xcodeproj" | head -1)")
+          cd "$PROJECT_DIR"
           xcodebuild archive \
             -project Unity-iPhone.xcodeproj \
             -scheme Unity-iPhone \
