@@ -182,7 +182,7 @@ jobs:
             ONLY_ACTIVE_ARCH=NO \
             SUPPORTED_PLATFORMS=iphoneos \
             PLATFORM_NAME=iphoneos \
-            LIBRARY_SEARCH_PATHS="$(BUILT_PRODUCTS_DIR)/UnityFramework.framework" \
+            LIBRARY_SEARCH_PATHS="$$(BUILT_PRODUCTS_DIR)/UnityFramework.framework" \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO
 
