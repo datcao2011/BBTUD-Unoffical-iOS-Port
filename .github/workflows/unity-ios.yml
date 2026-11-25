@@ -89,6 +89,75 @@ jobs:
           echo "Project dir: $PROJECT_DIR"
           chmod +x "$PROJECT_DIR/MapFileParser.sh" || true
 
+      - name: Link UnityFramework into app target
+        run: |
+          PROJECT_DIR=$(dirname "$(find xcode-project -maxdepth 3 -name "Unity-iPhone.xcodeproj" | head -1)")
+          PBXPROJ="$PROJECT_DIR/Unity-iPhone.xcodeproj/project.pbxproj"
+          python3 - "$PBXPROJ" <<'PY'
+          import re, sys, shutil
+          pbx = sys.argv[1]
+          shutil.copy2(pbx, pbx + '.bak')
+          NEW_GUID = '9D25ABB0213FB47800354C27'
+          NEW_BUILDFILE_LINE = f'\t\t{NEW_GUID} /* UnityFramework.framework in Frameworks */ = {{isa = PBXBuildFile; fileRef = 9D25AB9D213FB47800354C27 /* UnityFramework.framework */; }};\n'
+          data = open(pbx).read()
+          tm = re.search(r'([A-Z0-9]{24}) /\* Unity-iPhone \*/ = \{', data)
+          if not tm:
+              print("ERROR: Unity-iPhone target not found"); sys.exit(1)
+          tstart = tm.end()
+          bpm = re.search(r'buildPhases = \(', data[tstart:])
+          if not bpm:
+              print("ERROR: buildPhases not found"); sys.exit(1)
+          bp_paren = tstart + bpm.start() + len('buildPhases = (') - 1
+          depth = 0
+          i = bp_paren
+          while i < len(data):
+              if data[i] == '(': depth += 1
+              elif data[i] == ')':
+                  depth -= 1
+                  if depth == 0:
+                      break
+              i += 1
+          phases_list = data[bp_paren+1:i]
+          phase_guids = re.findall(r'([A-Z0-9]{24}) /\* Frameworks \*/', phases_list)
+          if not phase_guids:
+              print("ERROR: no Frameworks phase in Unity-iPhone target"); sys.exit(1)
+          fw_guid = phase_guids[0]
+          print(f"Unity-iPhone Frameworks phase GUID: {fw_guid}")
+          pm = re.search(re.escape(fw_guid) + r' /\* Frameworks \*/ = \{([^}]*)\};', data)
+          if not pm:
+              print("ERROR: Frameworks phase block not found"); sys.exit(1)
+          phase_inner = pm.group(1)
+          if 'UnityFramework.framework in Frameworks' in phase_inner:
+              print("Already linked; no change needed.")
+          else:
+              def repl_files(m):
+                  indent = '\t\t\t'
+                  inner_ws = m.group(1)
+                  entry = f'{NEW_GUID} /* UnityFramework.framework in Frameworks */'
+                  if inner_ws.strip() == '':
+                      return f'files = (\n{indent}{entry},\n{indent});'
+                  else:
+                      return f'files = ({inner_ws.rstrip()},\n{indent}{entry});'
+              new_inner = re.sub(r'files = \((\s*)\)', repl_files, phase_inner, count=1)
+              if new_inner == phase_inner:
+                  new_inner = phase_inner.replace(');', f',\n\t\t\t{NEW_GUID} /* UnityFramework.framework in Frameworks */);', 1)
+              new_block = pm.group(0).replace(phase_inner, new_inner, 1)
+              data = data.replace(pm.group(0), new_block, 1)
+              print("Added UnityFramework.framework to Unity-iPhone Frameworks build phase.")
+          buildfile_present = bool(re.search(
+              re.escape(NEW_GUID) + r' /\* UnityFramework.framework in Frameworks \*/ = \{isa = PBXBuildFile;', data))
+          anchor = '\t\t9D25ABA5213FB47800354C27 /* UnityFramework.framework in Embed Frameworks */ = '
+          if not buildfile_present and anchor in data:
+              data = data.replace(anchor, NEW_BUILDFILE_LINE + anchor, 1)
+              print("Added PBXBuildFile entry.")
+          elif buildfile_present:
+              print("PBXBuildFile entry already present.")
+          else:
+              data = data.replace('/* End PBXBuildFile section */', NEW_BUILDFILE_LINE + '/* End PBXBuildFile section */', 1)
+          open(pbx, 'w').write(data)
+          print("DONE")
+          PY
+
       - name: Archive (unsigned)
         run: |
           PROJECT_DIR=$(dirname "$(find xcode-project -maxdepth 3 -name "Unity-iPhone.xcodeproj" | head -1)")
@@ -103,7 +172,6 @@ jobs:
             ONLY_ACTIVE_ARCH=NO \
             SUPPORTED_PLATFORMS=iphoneos \
             PLATFORM_NAME=iphoneos \
-            OTHER_LDFLAGS="-ObjC -framework UnityFramework" \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO
 
