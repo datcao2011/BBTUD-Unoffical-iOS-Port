@@ -98,9 +98,11 @@ jobs:
             -scheme Unity-iPhone \
             -configuration Release \
             -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
             -archivePath $RUNNER_TEMP/MyGame.xcarchive \
             ARCHS=arm64 \
             ONLY_ACTIVE_ARCH=NO \
+            PLATFORM_NAME=iphoneos \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO
 
@@ -115,6 +117,21 @@ jobs:
           cd "$RUNNER_TEMP/ipa"
           zip -qr MyGame-unsigned.ipa Payload
           ls -lh MyGame-unsigned.ipa
+
+      - name: Verify it is a real iOS device build (arm64, not simulator)
+        run: |
+          APP_PATH=$(find "$RUNNER_TEMP/ipa/Payload" -maxdepth 1 -name "*.app" | head -1)
+          BIN_NAME=$(plutil -p "$APP_PATH/Info.plist" | sed -n 's/.*CFBundleExecutable" => "\(.*\)"/\1/p')
+          BIN="$APP_PATH/$BIN_NAME"
+          echo "Binary: $BIN"
+          file "$BIN"
+          vtool -show-build "$BIN" | grep -iE "platform|minos|sdk"
+          if vtool -show-build "$BIN" | grep -qi "IOSSIMULATOR"; then
+            echo "ERROR: build is for iOS Simulator, not a real device"
+            exit 1
+          fi
+          lipo -info "$BIN" | grep -q arm64 || { echo "ERROR: not arm64"; exit 1; }
+          echo "OK: arm64 iOS device build"
 
       - name: Upload IPA
         uses: actions/upload-artifact@v4
