@@ -98,10 +98,10 @@ jobs:
             -scheme Unity-iPhone \
             -configuration Release \
             -sdk iphoneos \
-            -destination 'generic/platform=iOS' \
             -archivePath $RUNNER_TEMP/MyGame.xcarchive \
             ARCHS=arm64 \
             ONLY_ACTIVE_ARCH=NO \
+            SUPPORTED_PLATFORMS=iphoneos \
             PLATFORM_NAME=iphoneos \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO
@@ -115,8 +115,8 @@ jobs:
           mkdir -p "$RUNNER_TEMP/ipa/Payload"
           cp -R "$APP_PATH" "$RUNNER_TEMP/ipa/Payload/"
           cd "$RUNNER_TEMP/ipa"
-          zip -qr MyGame-unsigned.ipa Payload
-          ls -lh MyGame-unsigned.ipa
+          zip -qr BBTUD-iOS-unsignn.ipa Payload
+          ls -lh BBTUD-iOS-unsignn.ipa
 
       - name: Verify it is a real iOS device build (arm64, not simulator)
         run: |
