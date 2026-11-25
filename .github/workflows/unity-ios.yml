@@ -115,8 +115,8 @@ jobs:
           mkdir -p "$RUNNER_TEMP/ipa/Payload"
           cp -R "$APP_PATH" "$RUNNER_TEMP/ipa/Payload/"
           cd "$RUNNER_TEMP/ipa"
-          zip -qr BBTUD-iOS-unsignn.ipa Payload
-          ls -lh BBTUD-iOS-unsignn.ipa
+          zip -qr BBTUD-iOS-port-unsigned.ipa Payload
+          ls -lh BBTUD-iOS-port-unsigned.ipa
 
       - name: Verify it is a real iOS device build (arm64, not simulator)
         run: |
