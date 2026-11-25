@@ -10,6 +10,10 @@ on:
 env:
   UNITY_VERSION: 2022.3.21f1
 
+permissions:
+  contents: read
+  actions: read
+
 jobs:
   # ---------- JOB 1: Unity -> Xcode project ----------
   export-xcode:
@@ -55,10 +59,24 @@ jobs:
     if: github.event_name != 'pull_request'
     steps:
       - name: Download Xcode project
-        uses: actions/download-artifact@v4
-        with:
-          name: xcode-project
-          path: xcode-project
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          ARTIFACT_ID=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/artifacts" \
+            --jq '.artifacts[] | select(.name=="xcode-project") | .id')
+          echo "Artifact ID: $ARTIFACT_ID"
+          rm -rf xcode-project xcode-project.zip
+          mkdir -p xcode-project
+          curl -L --fail --retry 5 --retry-delay 5 --retry-all-errors \
+               --connect-timeout 30 --max-time 600 \
+               -H "Authorization: Bearer $GH_TOKEN" \
+               -H "Accept: application/vnd.github+json" \
+               -o xcode-project.zip \
+               "https://api.github.com/repos/$GITHUB_REPOSITORY/actions/artifacts/$ARTIFACT_ID/zip"
+          unzip -q xcode-project.zip -d xcode-project
+          rm -f xcode-project.zip
+          ls -la xcode-project
 
       - name: Show Xcode version
         run: |
