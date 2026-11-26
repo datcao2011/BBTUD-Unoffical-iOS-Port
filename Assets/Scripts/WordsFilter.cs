@@ -9,7 +9,11 @@ public class WordsFilter
 {
     public WordsFilter()
     {
-        FilteredWords = ((TextAsset)Resources.Load("FilteredWords")).text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList();
+        TextAsset asset = (TextAsset)Resources.Load("FilteredWords");
+        if (asset != null)
+        {
+            FilteredWords = asset.text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList();
+        }
     }
 
     // Token: 0x06000001 RID: 1 RVA: 0x00002050 File Offset: 0x00000250
