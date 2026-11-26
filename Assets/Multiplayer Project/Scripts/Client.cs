@@ -1125,7 +1125,9 @@ namespace Multiplayer
                     var _rs = TheRealModel.GetComponentsInChildren<Renderer>(true);
                     int _en = 0; foreach (var _r in _rs) if (_r.enabled) _en++;
                     string _sh = _rs.Length>0 && _rs[0].sharedMaterial!=null ? _rs[0].sharedMaterial.shader.name : "null";
-                    Debug.Log($"[Model] Created {TheRealModel.name} at {TheRealModel.transform.position} renderers={_rs.Length} enabled={_en} firstShader={_sh} activeSelf={TheRealModel.activeSelf}");
+                    var _rs = TheRealModel.GetComponentsInChildren<Renderer>(true);
+                    int _en = 0; foreach (var _r in _rs) { if (_r.enabled) { _en++; var _m = _r.sharedMaterial; if (_m != null) Debug.Log($"[ModelPart] name={_r.name} enabled={_r.enabled} shader={_m.shader.name} color={_m.color}"); } }
+                    Debug.Log($"[Model] Created {TheRealModel.name} at {TheRealModel.transform.position} renderers={_rs.Length} enabled={_en} activeSelf={TheRealModel.activeSelf}");
                     try
                     {
                         string[] AvatarColors = (string[])PhotonNetwork.CurrentRoom.GetPlayer(photonEvent.Sender).CustomProperties["avatar"] ?? (new string[] { "", "", "", "", "", "" });
@@ -1148,6 +1150,8 @@ namespace Multiplayer
                 ModelManager.UpdatePos(new Vector3(position[0], position[1], position[2]), Quaternion.Euler(new Vector3(rotation[0], rotation[1], rotation[2])));
                 var _rs2 = TheRealModel.GetComponentsInChildren<Renderer>(true);
                 int _en2 = 0; foreach (var _r in _rs2) if (_r.enabled) _en2++;
+                var _rs2 = TheRealModel.GetComponentsInChildren<Renderer>(true);
+                int _en2 = 0; foreach (var _r in _rs2) { if (_r.enabled) { _en2++; var _m2 = _r.sharedMaterial; if (_m2 != null) Debug.Log($"[ModelPart] name={_r.name} enabled={_r.enabled} shader={_m2.shader.name} color={_m2.color}"); } }
                 Debug.Log($"[Model] {TheRealModel.name} target pos=({position[0]},{position[1]},{position[2]}) renderers={_rs2.Length} enabled={_en2} active={TheRealModel.activeSelf}");
             }
             if (photonEvent.Code == 5) // Target from Baldi
