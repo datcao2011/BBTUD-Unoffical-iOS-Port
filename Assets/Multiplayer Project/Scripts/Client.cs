@@ -1122,6 +1122,7 @@ namespace Multiplayer
                     TheRealModel = GameObject.Instantiate(CreateObject, CreateObject.transform.position, CreateObject.transform.rotation);
                     TheRealModel.name = "EMP_" + (string)data[1];
                     LoggedModels.Add(TheRealModel);
+                    Debug.Log($"[Model] Created {TheRealModel.name} at {TheRealModel.transform.position} renderers={TheRealModel.GetComponentsInChildren<Renderer>(true).Length}");
                     try
                     {
                         string[] AvatarColors = (string[])PhotonNetwork.CurrentRoom.GetPlayer(photonEvent.Sender).CustomProperties["avatar"] ?? (new string[] { "", "", "", "", "", "" });
@@ -1142,6 +1143,7 @@ namespace Multiplayer
                 float[] position = (float[])data[2];
                 float[] rotation = (float[])data[3];
                 ModelManager.UpdatePos(new Vector3(position[0], position[1], position[2]), Quaternion.Euler(new Vector3(rotation[0], rotation[1], rotation[2])));
+                Debug.Log($"[Model] {TheRealModel.name} target pos=({position[0]},{position[1]},{position[2]}) renderers={TheRealModel.GetComponentsInChildren<Renderer>(true).Length} active={TheRealModel.activeSelf}");
             }
             if (photonEvent.Code == 5) // Target from Baldi
             {
