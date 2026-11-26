@@ -213,22 +213,35 @@ jobs:
           APP_PATH=$(find "$RUNNER_TEMP/ipa/Payload" -maxdepth 1 -name "*.app" | head -1)
           BIN_NAME=$(plutil -p "$APP_PATH/Info.plist" | sed -n 's/.*CFBundleExecutable" => "\(.*\)"/\1/p')
           BIN="$APP_PATH/$BIN_NAME"
-          echo "Binary: $BIN"
+          UF="$APP_PATH/Frameworks/UnityFramework.framework/UnityFramework"
+          echo "Main binary: $BIN"
           file "$BIN"
           vtool -show-build "$BIN" | grep -iE "platform|minos|sdk"
           if vtool -show-build "$BIN" | grep -qi "IOSSIMULATOR"; then
             echo "ERROR: build is for iOS Simulator, not a real device"
             exit 1
           fi
-          lipo -info "$BIN" | grep -q arm64 || { echo "ERROR: not arm64"; exit 1; }
-          if otool -L "$BIN" | grep -q "libiPhone-lib"; then
-            echo "OK: links libiPhone-lib.dylib"
+          lipo -info "$BIN" | grep -q arm64 || { echo "ERROR: main binary not arm64"; exit 1; }
+          echo "Main exe links (non-system):"
+          otool -L "$BIN" | grep -vE "/System/|/usr/lib"
+          # UnityFramework must link libiPhone-lib (defines UnityPLCrashReporter)
+          echo "UnityFramework deps (non-system):"
+          otool -L "$UF" | grep -vE "/System/|/usr/lib"
+          if otool -L "$UF" | grep -q "libiPhone-lib"; then
+            echo "OK: UnityFramework links libiPhone-lib.dylib"
           else
-            echo "ERROR: executable does NOT link libiPhone-lib.dylib"
-            otool -L "$BIN"
+            echo "ERROR: UnityFramework does NOT link libiPhone-lib.dylib"
             exit 1
           fi
-          echo "OK: arm64 iOS device build"
+          # UnityFramework must have no undefined non-system symbols (engine fully linked)
+          UNDEF=$(nm -u "$UF" 2>/dev/null | grep -iE "il2cpp|baselib|PLCrash|UnityPLCrash" | wc -l | tr -d ' ')
+          echo "Undefined engine symbols in UnityFramework: $UNDEF"
+          if [ "$UNDEF" != "0" ]; then
+            echo "ERROR: UnityFramework has $UNDEF undefined engine symbols (libs not linked)"
+            nm -u "$UF" 2>/dev/null | grep -iE "il2cpp|baselib|PLCrash" | head
+            exit 1
+          fi
+          echo "OK: arm64 iOS device build, engine fully linked"
 
       - name: Upload IPA
         uses: actions/upload-artifact@v4
