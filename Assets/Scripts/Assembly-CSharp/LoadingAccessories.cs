@@ -477,6 +477,9 @@ public class LoadingAccessories : MonoBehaviour
             case RuntimePlatform.Android:
                 loadingText.text = "Device: Android";
                 break;
+            case RuntimePlatform.IPhonePlayer:
+                loadingText.text = "Device: iOS";
+                break;
             default:
                 loadingText.text = "Unsupported Device";
                 ShowDialog("Unsupported Device", "You are currently on a unsupported device (" + Application.platform + "). Supported devices of BBTUD are Windows, Mac OSX, Android, and WebGL. You can not play this game on a unsupported device.");
