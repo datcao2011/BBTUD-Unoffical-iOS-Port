@@ -179,6 +179,15 @@ jobs:
           print("DONE")
           PY
 
+      - name: Enable file sharing in Info.plist (so logs can be pulled via Finder)
+        run: |
+          PROJECT_DIR=$(dirname "$(find xcode-project -maxdepth 3 -name "Unity-iPhone.xcodeproj" | head -1)")
+          PLIST="$PROJECT_DIR/Unity-iPhone/Info.plist"
+          echo "Patching $PLIST"
+          plutil -replace UIFileSharingEnabled -bool true "$PLIST"
+          plutil -replace LSSupportsOpeningDocumentsInPlace -bool true "$PLIST"
+          plutil -p "$PLIST" | grep -iE "FileSharing|DocumentsInPlace"
+
       - name: Archive (unsigned)
         run: |
           PROJECT_DIR=$(dirname "$(find xcode-project -maxdepth 3 -name "Unity-iPhone.xcodeproj" | head -1)")
