@@ -28,7 +28,7 @@ This port is not affiliated with or endorsed by the original author or Basically
 4. `Build` to a folder.
 5. Open the generated `.xcodeproj` in Xcode, plug in your iPhone, select the device, then **Run**.
 
-> Free Apple ID can sign and install on your own device for 7 days; reconnect to Xcode to renew.
+> Free Apple ID can sign and install on your own device for 7 days.
 
 ### GitHub Actions
 
