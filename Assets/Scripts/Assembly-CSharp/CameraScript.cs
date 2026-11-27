@@ -217,8 +217,12 @@ public class CameraScript : MonoBehaviour
         if (!ps.gameOver & !ps.jumpRope)
         {
             transform.position = player.transform.position + offset;
-            transform.rotation = player.transform.rotation * Quaternion.Euler(0f, (float)lookBehind, playerPos.rotation.z);
-            transform.eulerAngles = new Vector3(rotationY, transform.eulerAngles.y, 0f);
+            Vector3 lookDir = (player.transform.position - transform.position).normalized;
+            lookDir.y = 0f;
+            Quaternion targetRot = Quaternion.LookRotation(lookDir, Vector3.up);
+            targetRot *= Quaternion.Euler(0f, (float)lookBehind, 0f);
+            transform.rotation = targetRot;
+            transform.rotation *= Quaternion.Euler(rotationY, 0f, 0f);
         }
         else if (ps.gameOver && gameOverCharacterTarget != null)
         {
@@ -234,8 +238,12 @@ public class CameraScript : MonoBehaviour
         else if (ps.jumpRope)
         {
             transform.position = player.transform.position + offset + jumpHeightV3;
-            transform.rotation = player.transform.rotation * Quaternion.Euler(0f, (float)lookBehind, playerPos.rotation.z);
-            transform.eulerAngles = new Vector3(rotationY, transform.eulerAngles.y, 0f);
+            Vector3 lookDir = (player.transform.position - transform.position).normalized;
+            lookDir.y = 0f;
+            Quaternion targetRot = Quaternion.LookRotation(lookDir, Vector3.up);
+            targetRot *= Quaternion.Euler(0f, (float)lookBehind, 0f);
+            transform.rotation = targetRot;
+            transform.rotation *= Quaternion.Euler(rotationY, 0f, 0f);
         }
     }
 
