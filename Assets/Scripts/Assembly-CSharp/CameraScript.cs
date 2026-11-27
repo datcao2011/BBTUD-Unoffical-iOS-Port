@@ -218,6 +218,10 @@ public class CameraScript : MonoBehaviour
         {
             transform.position = player.transform.position + offset;
             Vector3 lookDir = (player.transform.position - transform.position).normalized;
+            if (lookDir == Vector3.zero || lookDir.sqrMagnitude < 0.0001f)
+            {
+                lookDir = player.transform.forward;
+            }
             lookDir.y = 0f;
             Quaternion targetRot = Quaternion.LookRotation(lookDir, Vector3.up);
             targetRot *= Quaternion.Euler(0f, (float)lookBehind, 0f);
@@ -239,6 +243,10 @@ public class CameraScript : MonoBehaviour
         {
             transform.position = player.transform.position + offset + jumpHeightV3;
             Vector3 lookDir = (player.transform.position - transform.position).normalized;
+            if (lookDir == Vector3.zero || lookDir.sqrMagnitude < 0.0001f)
+            {
+                lookDir = player.transform.forward;
+            }
             lookDir.y = 0f;
             Quaternion targetRot = Quaternion.LookRotation(lookDir, Vector3.up);
             targetRot *= Quaternion.Euler(0f, (float)lookBehind, 0f);
