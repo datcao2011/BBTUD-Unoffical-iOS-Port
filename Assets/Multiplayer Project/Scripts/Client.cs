@@ -1128,8 +1128,10 @@ namespace Multiplayer
                         if (_r.enabled) {
                             _en++;
                             var _m = _r.sharedMaterial;
+                            var _mesh = _r.GetComponent<MeshFilter>()?.sharedMesh;
+                            var _inst = _r.material;
                             if (_m != null)
-                                Debug.Log($"[ModelPart] name={_r.name} enabled={_r.enabled} shader={_m.shader.name} color={_m.color}");
+                                Debug.Log($"[ModelPart] name={_r.name} enabled={_r.enabled} shader={_m.shader.name} color={_m.color} mesh={_mesh?.name ?? "NULL"} scale={_r.transform.localScale} layer={_r.gameObject.layer} inst={(_inst == _m ? "shared" : "instance")}");
                         }
                     }
                     Debug.Log($"[Model] Created {TheRealModel.name} at {TheRealModel.transform.position} renderers={_rs.Length} enabled={_en} activeSelf={TheRealModel.activeSelf}");
@@ -1159,8 +1161,10 @@ namespace Multiplayer
                     if (_r.enabled) {
                         _en2++;
                         var _m2 = _r.sharedMaterial;
+                        var _mesh2 = _r.GetComponent<MeshFilter>()?.sharedMesh;
+                        var _inst2 = _r.material;
                         if (_m2 != null)
-                            Debug.Log($"[ModelPart] name={_r.name} enabled={_r.enabled} shader={_m2.shader.name} color={_m2.color}");
+                            Debug.Log($"[ModelPart] name={_r.name} enabled={_r.enabled} shader={_m2.shader.name} color={_m2.color} mesh={_mesh2?.name ?? "NULL"} scale={_r.transform.localScale} layer={_r.gameObject.layer} inst={(_inst2 == _m2 ? "shared" : "instance")}");
                     }
                 }
                 Debug.Log($"[Model] {TheRealModel.name} target pos=({position[0]},{position[1]},{position[2]}) renderers={_rs2.Length} enabled={_en2} active={TheRealModel.activeSelf}");

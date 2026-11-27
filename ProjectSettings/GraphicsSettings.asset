@@ -51,6 +51,7 @@ GraphicsSettings:
   - {fileID: 10757, guid: 0000000000000000f000000000000000, type: 0}
   - {fileID: 4800000, guid: 431471a381b1d48a4c7fc172b7155519, type: 3}
   - {fileID: 4800000, guid: f333e464b1bff4904e93feab89a50d45, type: 3}
+  - {fileID: 4800000, guid: 0ca53d238beccb04b9244d08c435f3fb, type: 3}
   - {fileID: 19, guid: 0000000000000000f000000000000000, type: 0}
   - {fileID: 65, guid: 0000000000000000f000000000000000, type: 0}
   - {fileID: 66, guid: 0000000000000000f000000000000000, type: 0}
