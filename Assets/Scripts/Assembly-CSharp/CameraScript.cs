@@ -55,7 +55,7 @@ public class CameraScript : MonoBehaviour
         GM_PositionHeight = 5f;
         input = PlatTools.GetPlatformPlayer();
         gameOverCharacterTarget = baldi;
-        offset = transform.position - player.transform.position;
+        offset = player.transform.InverseTransformPoint(transform.position);
 
         if (Settings.GetBool("Optimize", GameOptimizer.OptimizationDefault))
         {
@@ -163,7 +163,8 @@ public class CameraScript : MonoBehaviour
         }
     }
 
-    private float rotationY;
+    private float yawOffset;
+    private float pitchOffset;
 
     public bool IgnoreCameraInputs;
 
@@ -198,35 +199,41 @@ public class CameraScript : MonoBehaviour
                 {
                     if (!ps.flipped)
                     {
-                        this.rotationY -= InputManager.TurnY(true) * Settings.GetFloat("TurnSensitivity", 1f);
+                        this.yawOffset -= InputManager.TurnX(true) * Settings.GetFloat("TurnSensitivity", 1f);
+                        this.pitchOffset -= InputManager.TurnY(true) * Settings.GetFloat("TurnSensitivity", 1f);
                     }
                     else
                     {
-                        this.rotationY -= -InputManager.TurnY(true) * Settings.GetFloat("TurnSensitivity", 1f);
+                        this.yawOffset -= -InputManager.TurnX(true) * Settings.GetFloat("TurnSensitivity", 1f);
+                        this.pitchOffset -= -InputManager.TurnY(true) * Settings.GetFloat("TurnSensitivity", 1f);
                     }
-                    rotationY = Mathf.Clamp(this.rotationY, -90f, 90f);
+                    pitchOffset = Mathf.Clamp(this.pitchOffset, -90f, 90f);
                 }
-
             }
             if (!Is3DMovementOn())
             {
-                rotationY = 0f;
+                yawOffset = 0f;
+                pitchOffset = 0f;
             }
         }
-        transform.position = player.transform.position + offset;
+        transform.position = player.transform.TransformPoint(offset);
         if (!ps.gameOver & !ps.jumpRope)
         {
-            transform.position = player.transform.position + offset;
+            transform.position = player.transform.TransformPoint(offset);
             Vector3 lookDir = (player.transform.position - transform.position).normalized;
             if (lookDir == Vector3.zero || lookDir.sqrMagnitude < 0.0001f)
             {
                 lookDir = player.transform.forward;
             }
+            if (lookBehind != 0)
+            {
+                lookDir = -lookDir;
+            }
+            lookDir = Quaternion.Euler(0f, yawOffset, 0f) * lookDir;
             lookDir.y = 0f;
-            Quaternion targetRot = Quaternion.LookRotation(lookDir, Vector3.up);
-            targetRot *= Quaternion.Euler(0f, (float)lookBehind, 0f);
-            transform.rotation = targetRot;
-            transform.rotation *= Quaternion.Euler(rotationY, 0f, 0f);
+            lookDir = Quaternion.Euler(pitchOffset, 0f, 0f) * lookDir;
+            lookDir.Normalize();
+            transform.rotation = Quaternion.LookRotation(lookDir, Vector3.up);
         }
         else if (ps.gameOver && gameOverCharacterTarget != null)
         {
@@ -241,17 +248,21 @@ public class CameraScript : MonoBehaviour
         }
         else if (ps.jumpRope)
         {
-            transform.position = player.transform.position + offset + jumpHeightV3;
+            transform.position = player.transform.TransformPoint(offset) + jumpHeightV3;
             Vector3 lookDir = (player.transform.position - transform.position).normalized;
             if (lookDir == Vector3.zero || lookDir.sqrMagnitude < 0.0001f)
             {
                 lookDir = player.transform.forward;
             }
+            if (lookBehind != 0)
+            {
+                lookDir = -lookDir;
+            }
+            lookDir = Quaternion.Euler(0f, yawOffset, 0f) * lookDir;
             lookDir.y = 0f;
-            Quaternion targetRot = Quaternion.LookRotation(lookDir, Vector3.up);
-            targetRot *= Quaternion.Euler(0f, (float)lookBehind, 0f);
-            transform.rotation = targetRot;
-            transform.rotation *= Quaternion.Euler(rotationY, 0f, 0f);
+            lookDir = Quaternion.Euler(pitchOffset, 0f, 0f) * lookDir;
+            lookDir.Normalize();
+            transform.rotation = Quaternion.LookRotation(lookDir, Vector3.up);
         }
     }
 
