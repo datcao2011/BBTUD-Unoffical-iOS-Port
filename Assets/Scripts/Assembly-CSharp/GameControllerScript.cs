@@ -1468,6 +1468,11 @@ public class GameControllerScript : MonoBehaviour
     public void DeactivateLearningGame(GameObject subject)
     {
         learningActive = false;
+        if (player != null && player.flipped)
+        {
+            player.flipped = false;
+            if (player.cameraScript != null) player.cameraScript.ChangeCamera(0, 1);
+        }
         if (subject != null)
             Object.Destroy(subject);
         UpdateNotebookCount();

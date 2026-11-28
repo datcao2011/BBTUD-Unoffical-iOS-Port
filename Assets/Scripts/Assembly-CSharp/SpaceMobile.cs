@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class SpaceMobile : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class SpaceMobile : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler
 {
     [SerializeField]
     private Color jumpColor;
@@ -62,5 +62,15 @@ public class SpaceMobile : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         Press();
         if (!JumpButton) cameraScript.lookBehindButton = false;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (!JumpButton && cameraScript != null) cameraScript.lookBehindButton = false;
+    }
+
+    private void OnDisable()
+    {
+        if (!JumpButton && cameraScript != null) cameraScript.lookBehindButton = false;
     }
 }
