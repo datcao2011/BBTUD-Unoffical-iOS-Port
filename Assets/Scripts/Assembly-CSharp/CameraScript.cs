@@ -207,7 +207,7 @@ public class CameraScript : MonoBehaviour
                         this.yawOffset -= -InputManager.TurnX(true) * Settings.GetFloat("TurnSensitivity", 1f);
                         this.pitchOffset -= -InputManager.TurnY(true) * Settings.GetFloat("TurnSensitivity", 1f);
                     }
-                    pitchOffset = Mathf.Clamp(this.pitchOffset, -90f, 90f);
+                    pitchOffset = Mathf.Clamp(this.pitchOffset, -89.9f, 89.9f);
                 }
             }
             if (!Is3DMovementOn())
@@ -237,6 +237,8 @@ public class CameraScript : MonoBehaviour
             if (lookDir.sqrMagnitude < 0.0001f)
                 lookDir = Vector3.forward;
             lookDir = Quaternion.Euler(pitchOffset, 0f, 0f) * lookDir;
+            if (lookDir.sqrMagnitude < 0.0001f)
+                lookDir = player.transform.forward;
             lookDir.Normalize();
             transform.rotation = Quaternion.LookRotation(lookDir, Vector3.up);
         }
@@ -271,6 +273,8 @@ public class CameraScript : MonoBehaviour
             if (lookDir.sqrMagnitude < 0.0001f)
                 lookDir = Vector3.forward;
             lookDir = Quaternion.Euler(pitchOffset, 0f, 0f) * lookDir;
+            if (lookDir.sqrMagnitude < 0.0001f)
+                lookDir = player.transform.forward;
             lookDir.Normalize();
             transform.rotation = Quaternion.LookRotation(lookDir, Vector3.up);
         }

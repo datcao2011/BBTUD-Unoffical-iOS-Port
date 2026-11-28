@@ -15,7 +15,7 @@ public class InputManager : MonoBehaviour
     {
         get
         {
-#if UNITY_ANDROID
+#if UNITY_ANDROID || UNITY_IOS
             return true;
 #else
             return TouchControls.Detected || (instance != null && instance.touchTest);
