@@ -1162,34 +1162,6 @@ namespace Multiplayer
                     TheRealModel = GameObject.Instantiate(CreateObject, CreateObject.transform.position, CreateObject.transform.rotation);
                     TheRealModel.name = "EMP_" + (string)data[1];
                     LoggedModels.Add(TheRealModel);
-                    var _rs = TheRealModel.GetComponentsInChildren<Renderer>(true);
-                    int _en = 0;
-                    foreach (var _r in _rs) {
-                        if (_r.enabled) {
-                            _en++;
-                            var _m = _r.sharedMaterial;
-                            var _mesh = _r.GetComponent<MeshFilter>()?.sharedMesh;
-                            var _inst = _r.material;
-                            if (_m != null)
-                                Debug.Log($"[ModelPart] name={_r.name} enabled={_r.enabled} shader={_m.shader.name} color={_m.color} mesh={_mesh?.name ?? "NULL"} scale={_r.transform.localScale} layer={_r.gameObject.layer} inst={(_inst == _m ? "shared" : "instance")}");
-                        }
-                    }
-                    Debug.Log($"[Model] Created {TheRealModel.name} at {TheRealModel.transform.position} renderers={_rs.Length} enabled={_en} activeSelf={TheRealModel.activeSelf}");
-                    var _cam = Camera.main;
-                    if (_cam != null)
-                    {
-                        var _planes = GeometryUtility.CalculateFrustumPlanes(_cam);
-                        var _inFrustum = true;
-                        foreach (var _p in _planes)
-                        {
-                            if (_p.GetDistanceToPoint(TheRealModel.transform.position) < 0f) { _inFrustum = false; break; }
-                        }
-                        Debug.Log($"[CamDiag] camPos={_cam.transform.position} camForward={_cam.transform.forward} near={_cam.nearClipPlane} far={_cam.farClipPlane} cullingMask={_cam.cullingMask} modelInFrustum={_inFrustum} modelDist={Vector3.Distance(_cam.transform.position, TheRealModel.transform.position)}");
-                    }
-                    else
-                    {
-                        Debug.Log("[CamDiag] Camera.main is NULL");
-                    }
                     try
                     {
                         string[] AvatarColors = (string[])PhotonNetwork.CurrentRoom.GetPlayer(photonEvent.Sender).CustomProperties["avatar"] ?? (new string[] { "", "", "", "", "", "" });
@@ -1210,30 +1182,6 @@ namespace Multiplayer
                 float[] position = (float[])data[2];
                 float[] rotation = (float[])data[3];
                 ModelManager.UpdatePos(new Vector3(position[0], position[1], position[2]), Quaternion.Euler(new Vector3(rotation[0], rotation[1], rotation[2])));
-                var _rs2 = TheRealModel.GetComponentsInChildren<Renderer>(true);
-                int _en2 = 0;
-                foreach (var _r in _rs2) {
-                    if (_r.enabled) {
-                        _en2++;
-                        var _m2 = _r.sharedMaterial;
-                        var _mesh2 = _r.GetComponent<MeshFilter>()?.sharedMesh;
-                        var _inst2 = _r.material;
-                        if (_m2 != null)
-                            Debug.Log($"[ModelPart] name={_r.name} enabled={_r.enabled} shader={_m2.shader.name} color={_m2.color} mesh={_mesh2?.name ?? "NULL"} scale={_r.transform.localScale} layer={_r.gameObject.layer} inst={(_inst2 == _m2 ? "shared" : "instance")}");
-                    }
-                }
-                Debug.Log($"[Model] {TheRealModel.name} target pos=({position[0]},{position[1]},{position[2]}) renderers={_rs2.Length} enabled={_en2} active={TheRealModel.activeSelf}");
-                var _cam2 = Camera.main;
-                if (_cam2 != null)
-                {
-                    var _planes2 = GeometryUtility.CalculateFrustumPlanes(_cam2);
-                    var _inFrustum2 = true;
-                    foreach (var _p in _planes2)
-                    {
-                        if (_p.GetDistanceToPoint(TheRealModel.transform.position) < 0f) { _inFrustum2 = false; break; }
-                    }
-                    Debug.Log($"[CamDiag2] camPos={_cam2.transform.position} camForward={_cam2.transform.forward} modelPos={TheRealModel.transform.position} modelInFrustum={_inFrustum2} modelDist={Vector3.Distance(_cam2.transform.position, TheRealModel.transform.position)}");
-                }
             }
             if (photonEvent.Code == 5) // Target from Baldi
             {
