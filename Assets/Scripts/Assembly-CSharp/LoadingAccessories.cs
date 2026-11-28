@@ -15,7 +15,7 @@ public class LoadingAccessories : MonoBehaviour
     public TMP_Text loadingText;
     public GameObject loadingIcon;
     public GameObject loadingThing;
-    public string GET_UPDATE_URL;
+    public string GET_UPDATE_URL = "https://api.github.com/repos/datcao2011/BBTUD-Unoffical-iOS-Port/releases/latest";
     private bool dialog_shown;
     public Animator dialog;
     public Animator updateDialog;
@@ -245,7 +245,7 @@ public class LoadingAccessories : MonoBehaviour
         // SKIP UPDATE
         yield break;
 #else
-        loadingText.text = "Checking for the latest update";
+        loadingText.text = "Checking for the latest update on GitHub";
         if (Application.internetReachability == NetworkReachability.NotReachable) yield break;
         UnityWebRequest request = UnityWebRequest.Get(GET_UPDATE_URL);
         yield return request.SendWebRequest();
@@ -269,9 +269,12 @@ public class LoadingAccessories : MonoBehaviour
         {
             try
             {
-                string latestVersionStr = request.downloadHandler.text;
+                GitHubRelease release = JsonUtility.FromJson<GitHubRelease>(request.downloadHandler.text);
+                string tag = release.tag_name;
+                if (tag.StartsWith("v", StringComparison.InvariantCultureIgnoreCase))
+                    tag = tag.Substring(1);
                 Version latestVersion;
-                if (!Version.TryParse(latestVersionStr, out latestVersion))
+                if (!Version.TryParse(tag, out latestVersion))
                 {
                     console.error("Failed to parse version text: " + request.error);
                     ShowDialog("Update Connection Failed", "Update Check Failed: Failed to parse response from the server");
@@ -336,6 +339,14 @@ public class LoadingAccessories : MonoBehaviour
         return eventMessage;
     }
 
+
+    [Serializable]
+    private class GitHubRelease
+    {
+        public string tag_name;
+        public string name;
+        public string body;
+    }
 
     private class StatusResponse
     {

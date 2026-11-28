@@ -231,6 +231,11 @@ public class CameraScript : MonoBehaviour
             }
             lookDir = Quaternion.Euler(0f, yawOffset, 0f) * lookDir;
             lookDir.y = 0f;
+            if (lookDir.sqrMagnitude < 0.0001f)
+                lookDir = player.transform.forward;
+            lookDir.y = 0f;
+            if (lookDir.sqrMagnitude < 0.0001f)
+                lookDir = Vector3.forward;
             lookDir = Quaternion.Euler(pitchOffset, 0f, 0f) * lookDir;
             lookDir.Normalize();
             transform.rotation = Quaternion.LookRotation(lookDir, Vector3.up);
@@ -260,6 +265,11 @@ public class CameraScript : MonoBehaviour
             }
             lookDir = Quaternion.Euler(0f, yawOffset, 0f) * lookDir;
             lookDir.y = 0f;
+            if (lookDir.sqrMagnitude < 0.0001f)
+                lookDir = player.transform.forward;
+            lookDir.y = 0f;
+            if (lookDir.sqrMagnitude < 0.0001f)
+                lookDir = Vector3.forward;
             lookDir = Quaternion.Euler(pitchOffset, 0f, 0f) * lookDir;
             lookDir.Normalize();
             transform.rotation = Quaternion.LookRotation(lookDir, Vector3.up);
