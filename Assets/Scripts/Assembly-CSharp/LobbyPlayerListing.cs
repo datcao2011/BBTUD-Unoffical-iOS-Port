@@ -87,9 +87,16 @@ namespace Multiplayer
                 Settings.YCTPUsage = Index;
             });
 
-            // Map selector (runtime-cloned so no Unity scene edit is required)
-            TMP_Dropdown MapDropdown = Instantiate(InProgressDropdown, InProgressDropdown.transform.parent);
-            MapDropdown.name = "MapDropdown";
+            // Map selector: clone the whole "In-Progress" row (label + dropdown) and place it
+            // below the last row so it is spaced like the other settings rows.
+            Transform row = InProgressDropdown.transform.parent;
+            Transform content = row.parent;
+            GameObject rowClone = Instantiate(row.gameObject, content);
+            rowClone.name = "Map Row";
+            RectTransform rowRT = rowClone.GetComponent<RectTransform>();
+            TMP_Text rowLabel = rowClone.transform.GetChild(0).GetComponent<TMP_Text>();
+            if (rowLabel != null) rowLabel.text = "Map";
+            TMP_Dropdown MapDropdown = rowClone.GetComponentInChildren<TMP_Dropdown>();
             MapDropdown.onValueChanged.RemoveAllListeners();
             MapDropdown.ClearOptions();
             MapDropdown.AddOptions(new List<string> { "School", "Grand Opening" });
@@ -99,7 +106,17 @@ namespace Multiplayer
             {
                 Settings.Scene = Index == 0 ? "School" : "School_2";
             });
-            MapDropdown.transform.localPosition += new Vector3(0f, -60f, 0f);
+            float lowestBottom = 0f;
+            foreach (RectTransform sib in content)
+            {
+                if (sib == rowRT) continue;
+                float bottom = sib.anchoredPosition.y - sib.rect.height * sib.pivot.y;
+                if (bottom < lowestBottom) lowestBottom = bottom;
+            }
+            float rowHeight = rowRT.rect.height;
+            rowRT.anchoredPosition = new Vector2(rowRT.anchoredPosition.x, lowestBottom - 6f - rowHeight * rowRT.pivot.y);
+            RectTransform contentRT = content.GetComponent<RectTransform>();
+            contentRT.sizeDelta += new Vector2(0f, rowHeight + 12f);
         }
 
         public override void OnEnable()
