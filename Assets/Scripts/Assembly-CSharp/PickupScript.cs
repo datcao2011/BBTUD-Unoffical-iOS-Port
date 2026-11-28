@@ -193,6 +193,7 @@ public class PickupScript : MonoBehaviour
                 else if (raycastHit.transform.name == "Pickup_Hammer")
                 {
                     Object.Destroy(click);
+                    gc.IsGoingToCarryDRRHammer = true;
                     raycastHit.transform.gameObject.SetActive(false);
                     CollectItem(24, raycastHit.transform.position);
                 }
@@ -204,15 +205,6 @@ public class PickupScript : MonoBehaviour
                 }
                 else if (raycastHit.transform.name.StartsWith("Pickup_HammerReflex")) // Doctor Reflex's Hammer
                 {
-                    if (MultiplayerManager.isActive)
-                    {
-                        if (Resources.Load("ErrorMaybe") != null)
-                        {
-                            gc.audioDevice.PlayOneShot((AudioClip)Resources.Load("ErrorMaybe"));
-                        }
-                        GameObject.Find("Hud").GetComponent<HudScreenTextScript>().ShowHudText(1f, "CANNOT CARRY <color=grey>Dr.</color><color=yellow> Reflex's</color> <color=grey>Hammer</color> THIS MODE");
-                        return;
-                    }
                     Object.Destroy(click);
                     gc.IsGoingToCarryDRRHammer = true;
                     raycastHit.transform.gameObject.SetActive(false);
