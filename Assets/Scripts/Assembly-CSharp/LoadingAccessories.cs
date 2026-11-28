@@ -248,22 +248,14 @@ public class LoadingAccessories : MonoBehaviour
         loadingText.text = "Checking for the latest update on GitHub";
         if (Application.internetReachability == NetworkReachability.NotReachable) yield break;
         UnityWebRequest request = UnityWebRequest.Get(GET_UPDATE_URL);
+        request.timeout = 15;
+        request.SetRequestHeader("User-Agent", "BBTUD-iOS-Port");
         yield return request.SendWebRequest();
         if (request.result != UnityWebRequest.Result.Success)
         {
             console.error("Connection to update URL failed: " + request.error);
-            if (request.error.Contains("SSL Connection", StringComparison.InvariantCultureIgnoreCase))
-            {
-                ShowDialog("Update Connection Failed", "We're unable to connect to the update server due to certificate verification problems. See bit.ly/SSLConnection for details.");
-            }
-            else
-            {
-                ShowDialog("Update Connection Failed", "Update Check Failed (" + request.result + "): " + request.error);
-            }
-            while (dialog_shown)
-            {
-                yield return null;
-            }
+            // Non-blocking: a failed update check must never stop the game from loading.
+            yield break;
         }
         else
         {
@@ -302,10 +294,6 @@ public class LoadingAccessories : MonoBehaviour
                         updateDialog.SetBool("Shown", true);
                         updateTitle.text = "A update is available!";
                         updateText.text = "A new patch is now available (V" + latestVersion + "). You have version " + currentVersion + ". If you experienced any bugs, download the new patch now!";
-                    }
-                    else if ((latestVersion.Major < currentVersion.Major || latestVersion.Minor < currentVersion.Minor || latestVersion.Build < currentVersion.Build) && currentVersion != new Version(3, 0, 5))
-                    {
-                        ShowDialog("Beta Testing V" + currentVersion, "You are currently playing the FINAL beta version of Baldi's Basics The Ultra Decompile V3! Please report any bugs and broken features. The latest release version was v" + latestVersion);
                     }
                 }
             }
