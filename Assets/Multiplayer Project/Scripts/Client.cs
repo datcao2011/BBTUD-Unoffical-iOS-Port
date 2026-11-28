@@ -1,7 +1,6 @@
 //#define !UNITY_WEBGL
 //#define DEFINED_CHEATING_CHECK
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
@@ -1029,7 +1028,7 @@ namespace Multiplayer
             StartCoroutine(SetLanPropWhenReady());
         }
 
-        private IEnumerator SetLanPropWhenReady()
+        private System.Collections.IEnumerator SetLanPropWhenReady()
         {
             yield return LanDetector.Ensure();
             if (PhotonNetwork.InRoom && !string.IsNullOrEmpty(LanDetector.LanKey))
