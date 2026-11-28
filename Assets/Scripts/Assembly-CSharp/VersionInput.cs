@@ -7,7 +7,7 @@ public class VersionInput : MonoBehaviour
     {
         get
         {
-            return new Version(3, 0, 608);
+            return new Version(3, 0, 609);
         }
     }
 
