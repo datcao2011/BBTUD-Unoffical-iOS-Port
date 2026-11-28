@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PlayerAvatarApplier : MonoBehaviour
 {
@@ -11,6 +12,35 @@ public class PlayerAvatarApplier : MonoBehaviour
     public MeshRenderer[] Hair;
 
     public GameObject[] Accessories;
+
+    private void Start()
+    {
+        OptimizeRenderers();
+    }
+
+    private void OptimizeRenderers()
+    {
+        Shader cheap = Shader.Find("Legacy Shaders/Diffuse");
+        if (cheap == null) cheap = Shader.Find("Mobile/Diffuse");
+        Renderer[] renderers = GetComponentsInChildren<Renderer>(true);
+        foreach (Renderer r in renderers)
+        {
+            if (r == null) continue;
+            r.shadowCastingMode = ShadowCastingMode.Off;
+            r.receiveShadows = false;
+            if (r.transform.localScale.sqrMagnitude < 0.0001f)
+            {
+                r.enabled = false;
+                continue;
+            }
+            if (cheap != null)
+            {
+                Material m = r.material;
+                if (m != null && m.shader != null && m.shader.name == "Standard")
+                    m.shader = cheap;
+            }
+        }
+    }
 
     public void Set(string arms, string torso, string legs, string body, string hair)
     {
