@@ -176,7 +176,7 @@ namespace Multiplayer
 #endif
 
                 PhotonNetwork.AutomaticallySyncScene = true;
-                PhotonNetwork.LoadLevel("School");
+                PhotonNetwork.LoadLevel(Settings.Scene);
             }
         }
 

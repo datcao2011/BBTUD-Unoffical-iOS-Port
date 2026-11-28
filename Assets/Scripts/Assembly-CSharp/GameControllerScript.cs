@@ -395,7 +395,7 @@ public class GameControllerScript : MonoBehaviour
             {
                 mode = "story";
                 PhotonNetwork.AutomaticallySyncScene = false;
-                if (MultiplayerManager.instance.CurrentSettings.SecondFloor) entrance_2.OpenElevate();
+                if (MultiplayerManager.instance.CurrentSettings.SecondFloor && entrance_2) entrance_2.OpenElevate();
                 return;
             }
             Destroy(MultiplayerEvents, 0f);

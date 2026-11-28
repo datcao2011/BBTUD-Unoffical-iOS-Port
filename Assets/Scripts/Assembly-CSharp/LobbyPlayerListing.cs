@@ -86,6 +86,20 @@ namespace Multiplayer
             {
                 Settings.YCTPUsage = Index;
             });
+
+            // Map selector (runtime-cloned so no Unity scene edit is required)
+            TMP_Dropdown MapDropdown = Instantiate(InProgressDropdown, InProgressDropdown.transform.parent);
+            MapDropdown.name = "MapDropdown";
+            MapDropdown.onValueChanged.RemoveAllListeners();
+            MapDropdown.ClearOptions();
+            MapDropdown.AddOptions(new List<string> { "School", "Grand Opening" });
+            MapDropdown.value = 0;
+            MapDropdown.RefreshShownValue();
+            MapDropdown.onValueChanged.AddListener((Index) =>
+            {
+                Settings.Scene = Index == 0 ? "School" : "School_2";
+            });
+            MapDropdown.transform.localPosition += new Vector3(0f, -60f, 0f);
         }
 
         public override void OnEnable()

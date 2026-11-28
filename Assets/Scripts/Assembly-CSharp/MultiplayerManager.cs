@@ -54,6 +54,7 @@ public class MultiplayerManager : MonoBehaviour
         public int JoinInProgress = 0;
         public bool[] CharacterActivated = new bool[10] { true, true, true, true, true, true, true, true, true, true };
         public int YCTPUsage = 0; // 0 = User Choice, 1 = Yes, 2 = Only Math, 3 = No
+        public string Scene = "School"; // "School" or "School_2" (Grand Opening)
     }
 
     public GameSettings CurrentSettings;
@@ -152,14 +153,19 @@ public class MultiplayerManager : MonoBehaviour
         InitProgressEvents();
         player.gc.UpdateNotebookCount();
         ElevatorScript.U(!CurrentSettings.SecondFloor);
-        GameObject.Find("Floor 2 Elevator").GetComponent<ElevatorScript>().unavailable = true;
+        GameObject floor2Elevator = GameObject.Find("Floor 2 Elevator");
+        if (floor2Elevator) floor2Elevator.GetComponent<ElevatorScript>().unavailable = true;
         gc.gameObject.AddComponent<DisableSaveSystem>();
         if (!CurrentSettings.RandomEvents) FindObjectOfType<RandomEvent>().PauseRandomEvents();
 
         if (GameObject.Find("MobileControls"))
         {
-            GameObject.Find("MobileControls").transform.GetChild(0).GetChild(0).GetChild(16).gameObject.SetActive(false);
-            GameObject.Find("MobileControls").transform.GetChild(0).GetChild(0).GetChild(17).gameObject.SetActive(true);
+            try
+            {
+                GameObject.Find("MobileControls").transform.GetChild(0).GetChild(0).GetChild(16).gameObject.SetActive(false);
+                GameObject.Find("MobileControls").transform.GetChild(0).GetChild(0).GetChild(17).gameObject.SetActive(true);
+            }
+            catch (System.Exception) { }
         }
 
         if (isAIBaldi && isMainPlayer)
@@ -180,14 +186,18 @@ public class MultiplayerManager : MonoBehaviour
             player.baldi.transform.GetChild(4).gameObject.SetActive(true);
             player.baldi.GetAngry(1f);
             Camera mainCamera = Camera.main;
-            GameObject.Find("Canvas Stuff").transform.GetChild(2).gameObject.SetActive(false);
-            GameObject.Find("Canvas Stuff").transform.GetChild(3).gameObject.SetActive(true);
-            GameObject.Find("MobileControls").transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
-            GameObject.Find("MobileControls").transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
+            try
+            {
+                GameObject.Find("Canvas Stuff").transform.GetChild(2).gameObject.SetActive(false);
+                GameObject.Find("Canvas Stuff").transform.GetChild(3).gameObject.SetActive(true);
+                GameObject.Find("MobileControls").transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
+                GameObject.Find("MobileControls").transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
 
-            player.gc.notebookCount = GameObject.Find("Canvas Stuff").transform.GetChild(3).GetChild(1).GetComponent<TMPro.TMP_Text>();
-            player.gc.exitsR = GameObject.Find("Canvas Stuff").transform.GetChild(3).GetChild(2).gameObject;
-            player.gc.exitCount = GameObject.Find("Canvas Stuff").transform.GetChild(3).GetChild(2).GetComponent<TMPro.TMP_Text>();
+                player.gc.notebookCount = GameObject.Find("Canvas Stuff").transform.GetChild(3).GetChild(1).GetComponent<TMPro.TMP_Text>();
+                player.gc.exitsR = GameObject.Find("Canvas Stuff").transform.GetChild(3).GetChild(2).gameObject;
+                player.gc.exitCount = GameObject.Find("Canvas Stuff").transform.GetChild(3).GetChild(2).GetComponent<TMPro.TMP_Text>();
+            }
+            catch (System.Exception) { }
             player.gc.UpdateNotebookCount();
         }
         if (HasMoreThan2Players)
@@ -279,11 +289,11 @@ public class MultiplayerManager : MonoBehaviour
 
     private void Update()
     {
-        if (Current != "School" && Current != "MM_Connect")
+        if (Current != "School" && Current != "School_2" && Current != "MM_Connect")
         {
             DestroyImmediate(gameObject);
         }
-        if (Current == "School")
+        if (Current == "School" || Current == "School_2")
         {
             if (platform.GetButtonDown("PList"))
             {
