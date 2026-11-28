@@ -141,6 +141,32 @@ public class SettingsManager : MonoBehaviour
         {
             Settings.SetBool("3d movement", value);
         });
+
+        // Look-behind mode (Toggle vs Hold) - runtime-cloned so no scene edit is required
+        GameObject lbClone = Instantiate(threeDToggle.gameObject, threeDToggle.transform.parent);
+        lbClone.name = "LookBehindToggle";
+        Toggle lbToggle = lbClone.GetComponent<Toggle>();
+        lbToggle.onValueChanged.RemoveAllListeners();
+        lbToggle.isOn = Settings.GetBool("LookBehindToggle", true);
+        lbToggle.onValueChanged.AddListener((value) =>
+        {
+            Settings.SetBool("LookBehindToggle", value);
+        });
+        TMPro.TMP_Text lbLabel = lbClone.GetComponentInChildren<TMPro.TMP_Text>();
+        if (lbLabel != null) lbLabel.text = "Look Behind (Toggle)";
+        RectTransform lbRT = lbClone.GetComponent<RectTransform>();
+        RectTransform lbParent = threeDToggle.transform.parent.GetComponent<RectTransform>();
+        float lbLowest = threeDToggle.GetComponent<RectTransform>().anchoredPosition.y - 45f;
+        if (lbParent != null)
+        {
+            foreach (RectTransform sib in lbParent)
+            {
+                if (sib == lbRT) continue;
+                float bottom = sib.anchoredPosition.y - sib.rect.height * sib.pivot.y;
+                if (bottom < lbLowest) lbLowest = bottom;
+            }
+        }
+        lbRT.anchoredPosition = new Vector2(lbRT.anchoredPosition.x, lbLowest - 6f - lbRT.rect.height * lbRT.pivot.y);
     }
 
     private void Update()

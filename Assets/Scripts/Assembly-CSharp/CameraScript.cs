@@ -147,7 +147,30 @@ public class CameraScript : MonoBehaviour
             jumpHeightV3 = new Vector3(0f, jumpHeight, 0f);
         }
 
-        if (input.GetButtonDown("LookBack")) ToggleLookBehind();
+        if (Settings.GetBool("LookBehindToggle", true))
+        {
+            if (input.GetButtonDown("LookBack")) ToggleLookBehind();
+        }
+        else
+        {
+            bool lookBackHeld = input.GetButton("LookBack") || lookBehindButton;
+            if (InputManager.usingTouch && Input.touchCount == 0 && !Input.GetMouseButton(0))
+            {
+                lookBehindButton = false;
+                lookBackHeld = false;
+            }
+            if (Time.timeScale != 0f & !ps.hiding & (!ps.jumpRope || InputManager.usingTouch || input.GetKeyName("LookBack") != input.GetKeyName("Jump")) && lookBackHeld)
+            {
+                if (!(MultiplayerManager.isActive && !MultiplayerManager.instance.isBaldi && MultiplayerManager.instance.PauseMovement))
+                {
+                    lookBehind = 180;
+                }
+            }
+            else
+            {
+                lookBehind = 0;
+            }
+        }
         if (ps.gameOver && !NoFade)
         {
             gameOverFade.SetActive(true);
@@ -313,6 +336,17 @@ public class CameraScript : MonoBehaviour
         if (MultiplayerManager.isActive && !MultiplayerManager.instance.isBaldi && MultiplayerManager.instance.PauseMovement) return;
         lookBehind = (lookBehind == 0) ? 180 : 0;
         lookBehindButton = lookBehind != 0;
+    }
+
+    public void LookBehindDown()
+    {
+        if (Settings.GetBool("LookBehindToggle", true)) ToggleLookBehind();
+        else lookBehindButton = true;
+    }
+
+    public void LookBehindUp()
+    {
+        if (!Settings.GetBool("LookBehindToggle", true)) lookBehindButton = false;
     }
 
     public float GetLookBehindValue()

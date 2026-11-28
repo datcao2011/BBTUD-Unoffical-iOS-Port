@@ -44,7 +44,7 @@ jobs:
           targetPlatform: iOS
           buildName: MyGame
           versioning: Custom
-          version: 3.0.619
+          version: 3.0.620
 
       - name: Upload Xcode project
         uses: actions/upload-artifact@v4

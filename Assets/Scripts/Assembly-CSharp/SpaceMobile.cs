@@ -55,15 +55,17 @@ public class SpaceMobile : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public void OnPointerDown(PointerEventData eventData)
     {
         Press();
-        if (!JumpButton && cameraScript != null) cameraScript.ToggleLookBehind();
+        if (!JumpButton && cameraScript != null) cameraScript.LookBehindDown();
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
         Press();
+        if (!JumpButton && cameraScript != null) cameraScript.LookBehindUp();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        if (!JumpButton && cameraScript != null) cameraScript.LookBehindUp();
     }
 }
