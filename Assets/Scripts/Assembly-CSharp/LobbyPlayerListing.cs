@@ -189,7 +189,7 @@ namespace Multiplayer
                 Options.AddRange(new string[] { "Random", "AI", "<color=green>" + PhotonNetwork.LocalPlayer.NickName + "</color>" });
                 foreach (Player player in Players)
                 {
-                    Options.Add(player.NickName);
+                    Options.Add(WithLan(player.NickName, player.ActorNumber));
                 }
                 CustomBaldiDropdown.AddOptions(Options);
                 CustomBaldiDropdown.value = (int)Mathf.Clamp(LastValue, 0f, Options.Count - 1);
@@ -214,8 +214,8 @@ namespace Multiplayer
             {
                 if (!Player_1.activeSelf || (Player_1.GetComponentInChildren<TMP_Text>().text != "" && RemoveTags(Player_1.GetComponentInChildren<TMP_Text>().text) != RemoveTags(Players[0].NickName)))
                 {
-                    StartCoroutine(FetchProfilePicture(Players[0].NickName, Player_1.GetComponentInChildren<RawImage>(), Player_1.GetComponentInChildren<TMP_Text>()));
-                    Player_1.GetComponentInChildren<TMP_Text>().text = Players[0].NickName ?? "(null)";
+                    StartCoroutine(FetchProfilePicture(Players[0].NickName, Player_1.GetComponentInChildren<RawImage>(), Player_1.GetComponentInChildren<TMP_Text>(), Players[0].ActorNumber));
+                    Player_1.GetComponentInChildren<TMP_Text>().text = WithLan(Players[0].NickName ?? "(null)", Players[0].ActorNumber);
                 }
                 Player_1.SetActive(true);
             }
@@ -231,8 +231,8 @@ namespace Multiplayer
             {
                 if (!Player_2.activeSelf || (Player_2.GetComponentInChildren<TMP_Text>().text != "" && RemoveTags(Player_2.GetComponentInChildren<TMP_Text>().text) != RemoveTags(Players[1].NickName)))
                 {
-                    StartCoroutine(FetchProfilePicture(Players[1].NickName, Player_2.GetComponentInChildren<RawImage>(), Player_2.GetComponentInChildren<TMP_Text>()));
-                    Player_2.GetComponentInChildren<TMP_Text>().text = Players[1].NickName ?? "(null)";
+                    StartCoroutine(FetchProfilePicture(Players[1].NickName, Player_2.GetComponentInChildren<RawImage>(), Player_2.GetComponentInChildren<TMP_Text>(), Players[1].ActorNumber));
+                    Player_2.GetComponentInChildren<TMP_Text>().text = WithLan(Players[1].NickName ?? "(null)", Players[1].ActorNumber);
                 }
                 Player_2.SetActive(true);
             }
@@ -248,8 +248,8 @@ namespace Multiplayer
             {
                 if (!Player_3.activeSelf || (Player_3.GetComponentInChildren<TMP_Text>().text != "" && RemoveTags(Player_3.GetComponentInChildren<TMP_Text>().text) != RemoveTags(Players[2].NickName)))
                 {
-                    StartCoroutine(FetchProfilePicture(Players[2].NickName, Player_3.GetComponentInChildren<RawImage>(), Player_3.GetComponentInChildren<TMP_Text>()));
-                    Player_3.GetComponentInChildren<TMP_Text>().text = Players[2].NickName ?? "(null)";
+                    StartCoroutine(FetchProfilePicture(Players[2].NickName, Player_3.GetComponentInChildren<RawImage>(), Player_3.GetComponentInChildren<TMP_Text>(), Players[2].ActorNumber));
+                    Player_3.GetComponentInChildren<TMP_Text>().text = WithLan(Players[2].NickName ?? "(null)", Players[2].ActorNumber);
                 }
                 Player_3.SetActive(true);
             }
@@ -267,7 +267,7 @@ namespace Multiplayer
             return System.Text.RegularExpressions.Regex.Replace(text, "<.*?>", string.Empty);
         }
 
-        private IEnumerator FetchProfilePicture(string username, RawImage ProfilePicture, TMP_Text UsernameText)
+        private IEnumerator FetchProfilePicture(string username, RawImage ProfilePicture, TMP_Text UsernameText, int actor)
         {
             while (CurrentlyFetchingProfilePicture)
                 yield return null;
@@ -292,8 +292,16 @@ namespace Multiplayer
                 yield break;
             }
             ProfilePicture.texture = AccountManager.LatestGotProfilePicture;
-            UsernameText.text = NameTagColor(AccountManager.LatestUserTag, username);
+            UsernameText.text = WithLan(NameTagColor(AccountManager.LatestUserTag, username), actor);
             yield break;
+        }
+
+        private string WithLan(string name, int actor)
+        {
+            if (string.IsNullOrEmpty(name)) return name;
+            if (MultiplayerManager.instance != null && MultiplayerManager.instance.client != null && MultiplayerManager.instance.client.HasLanPeerFor(actor))
+                return name + MultiplayerManager.LanTag;
+            return name;
         }
 
         private string NameTagColor(string tag, string user)

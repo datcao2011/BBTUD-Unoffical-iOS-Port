@@ -38,7 +38,11 @@ public class MultiplayerManager : MonoBehaviour
         public Texture profilePicture;
         public string tag = "";
         public string device = "browser";
+        public int actor = -1;
+        public bool isLan;
     }
+
+    public static string LanTag = " <color=blue>(LAN)</color>";
 
     [System.Serializable]
     public class GameSettings
@@ -347,6 +351,7 @@ public class MultiplayerManager : MonoBehaviour
                     PlayerList[1].tag = AccountManager.LatestUserTag;
                 }
                 GameObject.Find("Canvas Stuff").transform.GetChild(0).GetChild(8).GetChild(1).GetChild(0).GetComponent<RawImage>().texture = PlayerList[0].profilePicture;
+                PlayerList[0].isLan = client != null && client.HasLanPeerFor(PhotonNetwork.LocalPlayer.ActorNumber);
                 GameObject.Find("Canvas Stuff").transform.GetChild(0).GetChild(8).GetChild(1).GetChild(1).GetComponent<TMPro.TMP_Text>().text = HasNameTag(PlayerList[0]);
                 GameObject.Find("Canvas Stuff").transform.GetChild(0).GetChild(8).GetChild(1).GetChild(2).GetComponent<Image>().sprite = GetImage(PlayerList[0].device.ToLower());
                 Player[] PlayerCheck = PhotonNetwork.PlayerListOthers;
@@ -403,6 +408,7 @@ public class MultiplayerManager : MonoBehaviour
                     b = "<color=#383838>";
                 }
                 GameObject.Find("Canvas Stuff").transform.GetChild(0).GetChild(8).GetChild(2).GetChild(0).GetComponent<RawImage>().texture = PlayerList[1].profilePicture;
+                PlayerList[1].isLan = client != null && player != null && client.HasLanPeerFor(player.ActorNumber);
                 GameObject.Find("Canvas Stuff").transform.GetChild(0).GetChild(8).GetChild(2).GetChild(1).GetComponent<TMPro.TMP_Text>().text = a + HasNameTag(PlayerList[1]);
                 GameObject.Find("Canvas Stuff").transform.GetChild(0).GetChild(8).GetChild(2).GetChild(2).GetComponent<Image>().sprite = GetImage(PlayerList[1].device.ToLower());
                 if (PlayerList.Length > 2)
@@ -492,22 +498,23 @@ public class MultiplayerManager : MonoBehaviour
     private string HasNameTag(PlayerListItem item)
     {
         string username = item.username;
+        string lan = item.isLan ? LanTag : "";
         switch (item.tag.ToLower())
         {
             case "creator":
-                return "<color=green>" + username + "</color> <color=#2fad42><size=8>CREATOR</size></color>";
+                return "<color=green>" + username + "</color> <color=#2fad42><size=8>CREATOR</size></color>" + lan;
             case "helper":
-                return username + " <color=#2f98ad><size=8>HELPER</size></color>";
+                return username + " <color=#2f98ad><size=8>HELPER</size></color>" + lan;
             case "dev":
-                return username + " <color=blue><size=8>DEV</size></color>";
+                return username + " <color=blue><size=8>DEV</size></color>" + lan;
             case "yt":
-                return username + " <color=red><size=8>YT</size></color>";
+                return username + " <color=red><size=8>YT</size></color>" + lan;
             case "supporter":
-                return username + " <color=yellow><size=8>SUPPORTER</size></color>";
+                return username + " <color=yellow><size=8>SUPPORTER</size></color>" + lan;
             case "verified":
-                return username + " <color=blue><size=8>VERIFIED</size></color>";
+                return username + " <color=blue><size=8>VERIFIED</size></color>" + lan;
         }
-        return username;
+        return username + lan;
     }
 
     private float LastSpeed = 1f;

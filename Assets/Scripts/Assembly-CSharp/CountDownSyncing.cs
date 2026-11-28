@@ -96,20 +96,24 @@ public class CountDownSyncing : MonoBehaviour
     {
         List<MultiplayerManager.PlayerListItem> playerListItems = new List<MultiplayerManager.PlayerListItem>();
         MultiplayerManager.PlayerListItem You = new MultiplayerManager.PlayerListItem();
-        You.username = PhotonNetwork.LocalPlayer.NickName;
-        You.tag = (string)PhotonNetwork.LocalPlayer.CustomProperties["tag"] ?? "";
-        You.device = (string)PhotonNetwork.LocalPlayer.CustomProperties["device"] ?? "null";
-        playerListItems.Add(You);
+            You.username = PhotonNetwork.LocalPlayer.NickName;
+            You.tag = (string)PhotonNetwork.LocalPlayer.CustomProperties["tag"] ?? "";
+            You.device = (string)PhotonNetwork.LocalPlayer.CustomProperties["device"] ?? "null";
+            You.actor = PhotonNetwork.LocalPlayer.ActorNumber;
+            You.isLan = MultiplayerManager.instance != null && MultiplayerManager.instance.client != null && MultiplayerManager.instance.client.HasLanPeerFor(You.actor);
+            playerListItems.Add(You);
 
-        foreach (Player play in PhotonNetwork.PlayerListOthers)
-        {
-            MultiplayerManager.PlayerListItem ite = new MultiplayerManager.PlayerListItem();
-            if (play.NickName == "SERVER") continue;
-            ite.username = play.NickName;
-            ite.tag = (play.CustomProperties == null ? "" : (string)play.CustomProperties["tag"]) ?? "";
-            ite.device = (play.CustomProperties == null ? "" : (string)play.CustomProperties["device"]) ?? "null";
-            playerListItems.Add(ite);
-        }
+            foreach (Player play in PhotonNetwork.PlayerListOthers)
+            {
+                MultiplayerManager.PlayerListItem ite = new MultiplayerManager.PlayerListItem();
+                if (play.NickName == "SERVER") continue;
+                ite.username = play.NickName;
+                ite.tag = (play.CustomProperties == null ? "" : (string)play.CustomProperties["tag"]) ?? "";
+                ite.device = (play.CustomProperties == null ? "" : (string)play.CustomProperties["device"]) ?? "null";
+                ite.actor = play.ActorNumber;
+                ite.isLan = MultiplayerManager.instance != null && MultiplayerManager.instance.client != null && MultiplayerManager.instance.client.HasLanPeerFor(ite.actor);
+                playerListItems.Add(ite);
+            }
         return playerListItems.ToArray();
     }
 

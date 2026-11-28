@@ -175,7 +175,8 @@ public class PlayerScript : MonoBehaviour
             if (MultiplayerManager.instance.PlayerList.Length > 2) return; // Make sure there's no other player events.
             if (transform.position != MP_Position)
             {
-                transform.position = Vector3.Lerp(transform.position, MP_Position, 20f * Time.unscaledDeltaTime);
+                float lerpSpeed = (MultiplayerManager.instance.client != null && MultiplayerManager.instance.client.HasLanPeer()) ? 35f : 20f;
+                transform.position = Vector3.Lerp(transform.position, MP_Position, lerpSpeed * Time.unscaledDeltaTime);
             }
             if (transform.rotation != MP_Rotation)
             {

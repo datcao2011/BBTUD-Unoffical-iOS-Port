@@ -1,6 +1,7 @@
 //#define !UNITY_WEBGL
 //#define DEFINED_CHEATING_CHECK
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
@@ -825,6 +826,7 @@ namespace Multiplayer
             Hashtable hash = new Hashtable();
             hash.Add("device", Platforms.CurrentDevice.currentPlatform.ToString());
             hash.Add("avatar", ConnectionUI.Avatar.GetFull());
+            if (!string.IsNullOrEmpty(LanDetector.LanKey)) hash.Add("lan", LanDetector.LanKey);
             PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
 
             if (PhotonNetwork.PhotonServerSettings.AppSettings.IsBestRegion) ConnectionUI.SetBestRegion(PhotonNetwork.CloudRegion);
@@ -1022,7 +1024,46 @@ namespace Multiplayer
             Hashtable hash = new Hashtable();
             hash.Add("device", Platforms.CurrentDevice.currentPlatform.ToString());
             hash.Add("avatar", ConnectionUI.Avatar.GetFull());
+            if (!string.IsNullOrEmpty(LanDetector.LanKey)) hash.Add("lan", LanDetector.LanKey);
             PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+            StartCoroutine(SetLanPropWhenReady());
+        }
+
+        private IEnumerator SetLanPropWhenReady()
+        {
+            yield return LanDetector.Ensure();
+            if (PhotonNetwork.InRoom && !string.IsNullOrEmpty(LanDetector.LanKey))
+            {
+                Hashtable h = new Hashtable();
+                h.Add("lan", LanDetector.LanKey);
+                PhotonNetwork.LocalPlayer.SetCustomProperties(h);
+            }
+        }
+
+        public string GetLan(int actor)
+        {
+            if (PhotonNetwork.CurrentRoom == null) return null;
+            Photon.Realtime.Player p = PhotonNetwork.CurrentRoom.GetPlayer(actor);
+            if (p == null || p.CustomProperties == null) return null;
+            return (string)p.CustomProperties["lan"];
+        }
+
+        public bool HasLanPeerFor(int actor)
+        {
+            string me = GetLan(actor);
+            if (string.IsNullOrEmpty(me)) return false;
+            Photon.Realtime.Player[] players = PhotonNetwork.PlayerList;
+            for (int i = 0; i < players.Length; i++)
+            {
+                if (players[i].ActorNumber == actor) continue;
+                if (LanDetector.SameLan(me, GetLan(players[i].ActorNumber))) return true;
+            }
+            return false;
+        }
+
+        public bool HasLanPeer()
+        {
+            return HasLanPeerFor(PhotonNetwork.LocalPlayer.ActorNumber);
         }
 
         private bool WaitingForConnection;
